@@ -36,3 +36,8 @@ out/
 ### VS Code ###
 .vscode/
 InnDiray\
+
+### sercret key installed ###
+application.yml
+application.properties
+application-secret.yml
