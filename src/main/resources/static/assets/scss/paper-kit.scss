@@ -15,79 +15,79 @@
 
  */
 
-@import 'paper-kit/variables';
-@import 'paper-kit/mixins';
+@import 'assets/scss/paper-kit/variables';
+@import 'assets/scss/paper-kit/mixins';
 
 // Plugins CSS
-@import "paper-kit/plugins/plugin-bootstrap-switch";
-@import "paper-kit/plugins/plugin-nouislider";
-@import "paper-kit/plugins/plugin-bootstrap-select";
-@import "paper-kit/plugins/plugin-tagsinput";
-@import "paper-kit/plugins/plugin-fileupload";
-@import "paper-kit/plugins/plugin-datetimepicker";
+@import "assets/scss/paper-kit/plugins/plugin-bootstrap-switch";
+@import "assets/scss/paper-kit/plugins/plugin-nouislider";
+@import "assets/scss/paper-kit/plugins/plugin-bootstrap-select";
+@import "assets/scss/paper-kit/plugins/plugin-tagsinput";
+@import "assets/scss/paper-kit/plugins/plugin-fileupload";
+@import "assets/scss/paper-kit/plugins/plugin-datetimepicker";
 
 // Core CSS
-@import "paper-kit/nucleo-outline";
-@import "paper-kit/alerts";
-@import "paper-kit/checkbox-radio";
-@import "paper-kit/badges";
-@import "paper-kit/pagination";
-@import "paper-kit/typography";
-@import "paper-kit/misc";
-@import "paper-kit/misc-extended";
-@import "paper-kit/buttons";
-@import "paper-kit/social-buttons";
-@import "paper-kit/inputs";
-@import "paper-kit/progress-bars";
-@import "paper-kit/tooltips-and-popovers";
+@import "assets/scss/paper-kit/nucleo-outline";
+@import "assets/scss/paper-kit/alerts";
+@import "assets/scss/paper-kit/checkbox-radio";
+@import "assets/scss/paper-kit/badges";
+@import "assets/scss/paper-kit/pagination";
+@import "assets/scss/paper-kit/typography";
+@import "assets/scss/paper-kit/misc";
+@import "assets/scss/paper-kit/misc-extended";
+@import "assets/scss/paper-kit/buttons";
+@import "assets/scss/paper-kit/social-buttons";
+@import "assets/scss/paper-kit/inputs";
+@import "assets/scss/paper-kit/progress-bars";
+@import "assets/scss/paper-kit/tooltips-and-popovers";
 
 // components
-@import "paper-kit/tabs-navs";
-@import "paper-kit/navbars";
-@import "paper-kit/navbar-extend";
-@import "paper-kit/dropdown-extend";
-@import "paper-kit/images";
-@import "paper-kit/tags";
-@import "paper-kit/animated-buttons";
-@import "paper-kit/preloaders";
-@import "paper-kit/tables";
-@import "paper-kit/info-areas";
-@import "paper-kit/media";
-@import "paper-kit/modal";
-@import "paper-kit/carousel";
-@import "paper-kit/footers";
-@import "paper-kit/headers";
-@import "paper-kit/collapse";
+@import "assets/scss/paper-kit/tabs-navs";
+@import "assets/scss/paper-kit/navbars";
+@import "assets/scss/paper-kit/navbar-extend";
+@import "assets/scss/paper-kit/dropdown-extend";
+@import "assets/scss/paper-kit/images";
+@import "assets/scss/paper-kit/tags";
+@import "assets/scss/paper-kit/animated-buttons";
+@import "assets/scss/paper-kit/preloaders";
+@import "assets/scss/paper-kit/tables";
+@import "assets/scss/paper-kit/info-areas";
+@import "assets/scss/paper-kit/media";
+@import "assets/scss/paper-kit/modal";
+@import "assets/scss/paper-kit/carousel";
+@import "assets/scss/paper-kit/footers";
+@import "assets/scss/paper-kit/headers";
+@import "assets/scss/paper-kit/collapse";
 
 // cards
-@import "paper-kit/cards";
-@import "paper-kit/cards/card-background";
-@import "paper-kit/cards/card-blog";
-@import "paper-kit/cards/card-contact";
-@import "paper-kit/cards/card-image";
-@import "paper-kit/cards/card-register";
-@import "paper-kit/cards/card-plain";
-@import "paper-kit/cards/card-pricing";
-@import "paper-kit/cards/card-profile";
-@import "paper-kit/cards/card-product";
+@import "assets/scss/paper-kit/cards";
+@import "assets/scss/paper-kit/cards/card-background";
+@import "assets/scss/paper-kit/cards/card-blog";
+@import "assets/scss/paper-kit/cards/card-contact";
+@import "assets/scss/paper-kit/cards/card-image";
+@import "assets/scss/paper-kit/cards/card-register";
+@import "assets/scss/paper-kit/cards/card-plain";
+@import "assets/scss/paper-kit/cards/card-pricing";
+@import "assets/scss/paper-kit/cards/card-profile";
+@import "assets/scss/paper-kit/cards/card-product";
 // @import "paper-kit/cards/card-signup";
-@import "paper-kit/cards/card-testimonials";
+@import "assets/scss/paper-kit/cards/card-testimonials";
 
 // For gallery, using PhotoSwipe
-@import "paper-kit/plugins/photo-swipe/main.scss";
-@import "paper-kit/plugins/photo-swipe/default-skin.scss";
-@import "paper-kit/plugins/photo-swipe/gallery.scss";
-@import "paper-kit/plugins/photo-swipe/main.scss";
+@import "assets/scss/paper-kit/plugins/photo-swipe/main";
+@import "assets/scss/paper-kit/plugins/photo-swipe/default-skin";
+@import "assets/scss/paper-kit/plugins/photo-swipe/gallery";
+@import "assets/scss/paper-kit/plugins/photo-swipe/main";
 
 // Isometric cards plugin
-@import "paper-kit/plugins/plugin-isometricGrids";
+@import "assets/scss/paper-kit/plugins/plugin-isometricGrids";
 
 // example pages and sections
-@import "paper-kit/examples";
-@import "paper-kit/sections";
-@import "paper-kit/sections-extend";
+@import "assets/scss/paper-kit/examples";
+@import "assets/scss/paper-kit/sections";
+@import "assets/scss/paper-kit/sections-extend";
 
-@import "paper-kit/responsive";
+@import "assets/scss/paper-kit/responsive";
 
 // Nucleo Icons
-@import "paper-kit/nucleo-icons";
+@import "assets/scss/paper-kit/nucleo-icons";

@@ -171,7 +171,7 @@ We use GitHub Issues as the official bug tracker for the Paper Kit 2 PRO. Here a
 
 - Copyright 2019 Creative Tim (https://www.creative-tim.com/?ref=pk2p-github-readme)
 
-[CHANGELOG]: ./CHANGELOG.md
+[CHANGELOG]: CHANGELOG.md
 [LICENSE]: ./LICENSE.md
 
 ## Useful Links
