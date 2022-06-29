@@ -3,6 +3,7 @@ package com.diary.inn.InnDiary.api.entity;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Getter;
 import org.hibernate.annotations.TypeDef;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -16,6 +17,10 @@ import java.time.LocalDateTime;
 @Getter
 @TypeDef(name = "json", typeClass = JsonType.class)
 public abstract class BaseEntity {
+    @CreatedDate
+    @Column(name = "regdate", updatable = false)
+    private LocalDateTime regDate;
+
     @LastModifiedDate
     @Column(name = "modDate")
     private LocalDateTime modDate;

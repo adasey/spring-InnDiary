@@ -1,10 +1,10 @@
 package com.diary.inn.InnDiary.member;
 
-import com.diary.inn.InnDiary.user.domain.Member;
-import com.diary.inn.InnDiary.user.entity.MemberEntity;
-import com.diary.inn.InnDiary.user.repository.MemberRepository;
-import com.diary.inn.InnDiary.user.service.MemberConvertService;
-import com.diary.inn.InnDiary.user.service.MemberService;
+import com.diary.inn.InnDiary.info.domain.Member;
+import com.diary.inn.InnDiary.info.entity.MemberEntity;
+import com.diary.inn.InnDiary.info.repository.MemberRepository;
+import com.diary.inn.InnDiary.info.service.MemberConvertService;
+import com.diary.inn.InnDiary.info.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

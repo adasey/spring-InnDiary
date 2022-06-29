@@ -1,7 +1,7 @@
 package com.diary.inn.InnDiary.api.entity.json;
 
 import com.diary.inn.InnDiary.api.entity.BaseEntity;
-import com.diary.inn.InnDiary.user.entity.MemberEntity;
+import com.diary.inn.InnDiary.info.entity.MemberEntity;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
