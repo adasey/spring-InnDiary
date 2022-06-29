@@ -5,19 +5,15 @@ import com.diary.inn.InnDiary.login.oauth2.CustomOAuth2UsersService;
 import com.diary.inn.InnDiary.login.user.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 @RequiredArgsConstructor
 @EnableWebSecurity
+@Configuration
 public class SecurityConfig {
     private final CustomOAuth2UsersService customOAuth2UserService;
 
