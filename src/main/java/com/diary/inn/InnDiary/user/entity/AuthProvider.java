@@ -1,4 +1,4 @@
-package com.diary.inn.InnDiary.api.entity;
+package com.diary.inn.InnDiary.user.entity;
 
 public enum AuthProvider {
     google,
