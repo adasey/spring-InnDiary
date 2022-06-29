@@ -38,6 +38,4 @@ out/
 InnDiray\
 
 ### sercret key installed ###
-application.yml
-application.properties
-application-secret.yml
+application-secret.properties
