@@ -1,5 +1,6 @@
 package com.diary.inn.InnDiary.info.entity;
 
+import com.diary.inn.InnDiary.api.entity.BaseEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 

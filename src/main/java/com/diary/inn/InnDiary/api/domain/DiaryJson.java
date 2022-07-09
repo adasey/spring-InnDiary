@@ -1,4 +1,4 @@
-package com.diary.inn.InnDiary.api.entity.json;
+package com.diary.inn.InnDiary.api.domain;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.*;
@@ -9,8 +9,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class ToDoJson {
+public class DiaryJson {
     private Long seq;
+    private String save;
     private String loginId;
     private JsonNode Json;
     private LocalDateTime modDate;

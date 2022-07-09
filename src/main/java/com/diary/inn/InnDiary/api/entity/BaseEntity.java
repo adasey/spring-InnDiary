@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @TypeDef(name = "json", typeClass = JsonType.class)
 public abstract class BaseEntity {
     @CreatedDate
-    @Column(name = "regdate", updatable = false)
+    @Column(name = "regDate", updatable = false)
     private LocalDateTime regDate;
 
     @LastModifiedDate

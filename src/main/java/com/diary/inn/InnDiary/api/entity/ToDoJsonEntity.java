@@ -1,4 +1,4 @@
-package com.diary.inn.InnDiary.api.entity.json;
+package com.diary.inn.InnDiary.api.entity;
 
 import com.diary.inn.InnDiary.api.entity.BaseEntity;
 import com.diary.inn.InnDiary.info.entity.MemberEntity;
@@ -10,18 +10,21 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "inn_diary")
+@Table(name = "inn_todo")
 @ToString
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DiaryJsonEntity extends BaseEntity {
+public class ToDoJsonEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO, generator="native")
     @GenericGenerator(name = "native", strategy = "native")
     private Long seq;
+
+    @Column(length = 10)
+    private String save;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
@@ -30,8 +33,4 @@ public class DiaryJsonEntity extends BaseEntity {
     @Type(type = "json")
     @Column(columnDefinition = "json")
     private JsonNode Json;
-
-    public void setUser(MemberEntity user) {
-        this.user = user;
-    }
 }

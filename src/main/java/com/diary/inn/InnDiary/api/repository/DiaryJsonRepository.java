@@ -1,6 +1,6 @@
 package com.diary.inn.InnDiary.api.repository;
 
-import com.diary.inn.InnDiary.api.entity.json.DiaryJsonEntity;
+import com.diary.inn.InnDiary.api.entity.DiaryJsonEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
