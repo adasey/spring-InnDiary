@@ -1,6 +1,6 @@
 package com.diary.inn.InnDiary.login.user.entity;
 
-import com.diary.inn.InnDiary.api.entity.BaseEntity;
+import com.diary.inn.InnDiary.work.entity.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

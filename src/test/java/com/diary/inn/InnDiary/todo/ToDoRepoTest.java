@@ -1,6 +1,6 @@
 package com.diary.inn.InnDiary.todo;
 
-import com.diary.inn.InnDiary.api.repository.ToDoJsonRepository;
+import com.diary.inn.InnDiary.work.repository.api.ToDoJsonRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

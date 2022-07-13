@@ -1,6 +1,6 @@
 package com.diary.inn.InnDiary.diary;
 
-import com.diary.inn.InnDiary.api.repository.DiaryJsonRepository;
+import com.diary.inn.InnDiary.work.repository.api.DiaryJsonRepository;
 import org.junit.jupiter.api.Test;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

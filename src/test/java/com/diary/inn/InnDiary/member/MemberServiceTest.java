@@ -1,10 +1,10 @@
 package com.diary.inn.InnDiary.member;
 
-import com.diary.inn.InnDiary.info.domain.Member;
-import com.diary.inn.InnDiary.info.entity.MemberEntity;
-import com.diary.inn.InnDiary.info.repository.MemberRepository;
-import com.diary.inn.InnDiary.info.service.MemberConvertService;
-import com.diary.inn.InnDiary.info.service.MemberService;
+import com.diary.inn.InnDiary.work.domain.info.Member;
+import com.diary.inn.InnDiary.work.entity.info.MemberEntity;
+import com.diary.inn.InnDiary.work.repository.info.MemberRepository;
+import com.diary.inn.InnDiary.work.service.info.MemberConvertService;
+import com.diary.inn.InnDiary.work.service.info.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class MemberServiceTest {
     MemberRepository memberRepository;
 
     public Member makeAdminUser() {
-        return Member.builder().loginId("admin@test").company(0).state(1).build();
+        return Member.builder().loginId("lmo9903@gmail.com").company(0).state(1).build();
     }
 
     public Member makeUser(int id) {

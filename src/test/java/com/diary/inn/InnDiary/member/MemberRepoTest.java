@@ -1,7 +1,7 @@
 package com.diary.inn.InnDiary.member;
 
-import com.diary.inn.InnDiary.info.entity.MemberEntity;
-import com.diary.inn.InnDiary.info.repository.MemberRepository;
+import com.diary.inn.InnDiary.work.entity.info.MemberEntity;
+import com.diary.inn.InnDiary.work.repository.info.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
