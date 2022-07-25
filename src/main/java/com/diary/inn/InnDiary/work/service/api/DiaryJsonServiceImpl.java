@@ -5,6 +5,7 @@ import com.diary.inn.InnDiary.work.entity.api.DiaryJsonEntity;
 import com.diary.inn.InnDiary.work.entity.info.MemberEntity;
 import com.diary.inn.InnDiary.work.repository.api.DiaryJsonRepository;
 import com.diary.inn.InnDiary.work.repository.api.ModifyDiaryJsonRepository;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class DiaryJsonServiceImpl implements DiaryJsonService, DiaryJsonConversionService {
+public class DiaryJsonServiceImpl implements DiaryJsonService, DiaryJsonConversionService, DiaryJsonProcess {
     private final DiaryJsonRepository diaryJsonRepository;
     private final ModifyDiaryJsonRepository modifyDiaryJsonRepository;
 
@@ -24,7 +25,15 @@ public class DiaryJsonServiceImpl implements DiaryJsonService, DiaryJsonConversi
 
     @Override
     public void uploadTo(DiaryJson diaryJson) {
-        modifyDiaryJsonRepository.saveJsonByEmailNSave(dtoToEntity(diaryJson));
+        modifyDiaryJsonRepository.updateJsonByEmailNSave(dtoToEntity(diaryJson));
+    }
+
+    @Override
+    public void deleteWithEmailNSave(String email, String save) {
+    }
+
+    @Override
+    public void updateLoadedData(DiaryJson diaryJson) {
     }
 
     @Override
@@ -72,5 +81,15 @@ public class DiaryJsonServiceImpl implements DiaryJsonService, DiaryJsonConversi
                 .saveTitle(diaryJson.getSave())
                 .diary(diaryJson.getJson())
                 .build();
+    }
+
+    @Override
+    public List<String> stringArrayToJson(List<JsonNode> diary) {
+        return null;
+    }
+
+    @Override
+    public List<JsonNode> jsonArrayToString(List<String> diary) {
+        return null;
     }
 }

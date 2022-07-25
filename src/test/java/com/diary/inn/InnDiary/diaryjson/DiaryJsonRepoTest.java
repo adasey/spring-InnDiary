@@ -268,7 +268,7 @@ public class DiaryJsonRepoTest {
         test.setDiary(JsonGenerator(2));
 
         // when
-        modifyDiaryJsonRepository.saveJsonByEmailNSave(test);
+        modifyDiaryJsonRepository.updateJsonByEmailNSave(test);
         DiaryJsonEntity found = modifyDiaryJsonRepository.findByEmailNSave("test", "test1");
 
         // then

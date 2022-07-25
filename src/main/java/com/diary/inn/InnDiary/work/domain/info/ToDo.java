@@ -5,6 +5,9 @@ import lombok.*;
 @Setter
 @Getter
 @Builder
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class ToDo {
     private String title;
     private String regDate;

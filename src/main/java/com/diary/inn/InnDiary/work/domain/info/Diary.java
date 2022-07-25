@@ -5,6 +5,9 @@ import lombok.*;
 @Setter
 @Getter
 @Builder
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Diary {
     private String title;
     private String regDate;

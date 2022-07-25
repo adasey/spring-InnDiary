@@ -52,9 +52,8 @@ public class ModifyDiaryJsonRepositoryImpl extends QuerydslRepositorySupport imp
     @Transactional
     @Modifying
     @Override
-    public void saveJsonByEmailNSave(DiaryJsonEntity entity) {
+    public void updateJsonByEmailNSave(DiaryJsonEntity entity) {
         JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
-        log.info("error reason check : {}", entity.getDiary());
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         BooleanExpression saveTitle = diaryJsonEntity.saveTitle.eq(entity.getSaveTitle());
