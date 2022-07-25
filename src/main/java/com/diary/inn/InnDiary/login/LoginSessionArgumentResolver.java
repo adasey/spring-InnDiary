@@ -1,6 +1,6 @@
 package com.diary.inn.InnDiary.login;
 
-import com.diary.inn.InnDiary.login.user.session.SessionUser;
+import com.diary.inn.InnDiary.login.user.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

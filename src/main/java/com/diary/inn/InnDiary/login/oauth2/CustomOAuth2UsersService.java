@@ -2,7 +2,7 @@ package com.diary.inn.InnDiary.login.oauth2;
 
 import com.diary.inn.InnDiary.login.user.entity.UserEntity;
 import com.diary.inn.InnDiary.login.user.repository.UserRepository;
-import com.diary.inn.InnDiary.login.user.session.SessionUser;
+import com.diary.inn.InnDiary.login.user.SessionUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -47,7 +47,7 @@ public class CustomOAuth2UsersService implements OAuth2UserService<OAuth2UserReq
 
     private UserEntity saveOrUpdate(OAuthAttributes attributes) {
         UserEntity user = userRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getName(),attributes.getPicture()))
+                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
                 .orElse(attributes.toEntity());
 
         return userRepository.save(user);

@@ -1,4 +1,4 @@
-package com.diary.inn.InnDiary.login.user.session;
+package com.diary.inn.InnDiary.login.user;
 
 import com.diary.inn.InnDiary.login.user.entity.UserEntity;
 import lombok.Getter;
