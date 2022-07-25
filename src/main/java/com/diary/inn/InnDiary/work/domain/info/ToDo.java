@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 public class ToDo {
     private String title;
-    private String date;
+    private String regDate;
     private Integer weather;
     private Integer status;
     private String content;

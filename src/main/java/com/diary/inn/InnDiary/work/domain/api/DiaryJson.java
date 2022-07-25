@@ -13,6 +13,6 @@ public class DiaryJson {
     private Long seq;
     private String save;
     private String loginId;
-    private JsonNode Json;
+    private String Json;
     private LocalDateTime modDate;
 }

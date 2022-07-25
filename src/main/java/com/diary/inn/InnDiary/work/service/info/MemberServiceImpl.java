@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImpl implements MemberService, MemberConvertService {
+public class MemberServiceImpl implements MemberService, MemberConversionService {
     private final MemberRepository memberRepository;
     private final SearchWithPageMemberRepository searchWithPageMemberRepository;
 
@@ -51,6 +51,11 @@ public class MemberServiceImpl implements MemberService, MemberConvertService {
     }
 
     @Override
+    public Member findByEmail(String loginId) {
+        return entityToDto(memberRepository.findByLoginId(loginId));
+    }
+
+    @Override
     public List<Member> memberAll() {
         List<MemberEntity> search = memberRepository.findAll();
         List<Member> result = new ArrayList<>();
@@ -60,5 +65,15 @@ public class MemberServiceImpl implements MemberService, MemberConvertService {
         }
 
         return result;
+    }
+
+    @Override
+    public void deleteByEmail(String email) {
+        memberRepository.delete(dtoToEntity(findByEmail(email)));
+    }
+
+    @Override
+    public void updateMemberState(String email, int state) {
+        memberRepository.updateMemberState(memberRepository.findByLoginId(email).getSeq(), state);
     }
 }

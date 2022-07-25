@@ -1,7 +1,7 @@
 package com.diary.inn.InnDiary.work.controller.info;
 
 import com.diary.inn.InnDiary.login.LoginSession;
-import com.diary.inn.InnDiary.login.user.session.SessionUser;
+import com.diary.inn.InnDiary.login.user.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,6 +1,6 @@
 package com.diary.inn.InnDiary.diary;
 
-import com.diary.inn.InnDiary.work.repository.api.DiaryJsonRepository;
+import com.diary.inn.InnDiary.work.repository.api.ModifyDiaryJsonRepository;
 import org.junit.jupiter.api.Test;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class DiaryRepoTest {
     @Autowired
-    DiaryJsonRepository diaryJsonRepository;
+    ModifyDiaryJsonRepository modifyDiaryJsonRepository;
 
     public String test = "{'title' : 'test'}";
 

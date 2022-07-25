@@ -47,7 +47,7 @@ public class JsonResponseController {
         DiaryJson diaryJson = DiaryJson.builder()
                 .save("1")
                 .loginId("test@test.com")
-                .Json(objectMapper.readTree(jsonTest))
+                .Json(jsonTest)
                 .modDate(LocalDateTime.now())
                 .build();
 
@@ -79,7 +79,7 @@ public class JsonResponseController {
         ToDoJson toDoJson = ToDoJson.builder()
                 .save("test")
                 .loginId("test@test.com")
-                .Json(objectMapper.readTree(jsonTest))
+                .Json(jsonTest)
                 .modDate(LocalDateTime.now())
                 .build();
 

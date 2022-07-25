@@ -3,7 +3,7 @@ package com.diary.inn.InnDiary.member;
 import com.diary.inn.InnDiary.work.domain.info.Member;
 import com.diary.inn.InnDiary.work.entity.info.MemberEntity;
 import com.diary.inn.InnDiary.work.repository.info.MemberRepository;
-import com.diary.inn.InnDiary.work.service.info.MemberConvertService;
+import com.diary.inn.InnDiary.work.service.info.MemberConversionService;
 import com.diary.inn.InnDiary.work.service.info.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ public class MemberServiceTest {
     @Autowired
     MemberService memberService;
     @Autowired
-    MemberConvertService memberConvertService;
+    MemberConversionService memberConversionService;
     @Autowired
     MemberRepository memberRepository;
 
@@ -42,8 +42,8 @@ public class MemberServiceTest {
         MemberEntity me = MemberEntity.builder().seq(0L).loginId("0").company(0).state(0).build();
 
         //when
-        Member r = memberConvertService.entityToDto(me);
-        MemberEntity re = memberConvertService.dtoToEntity(m);
+        Member r = memberConversionService.entityToDto(me);
+        MemberEntity re = memberConversionService.dtoToEntity(m);
 
         //then
         assertThat(m.getClass()).isEqualTo(r.getClass());
@@ -53,19 +53,18 @@ public class MemberServiceTest {
     @Test
     void joinTest() {
         //given
-        Member member = Member.builder().loginId("test@test").company(0).state(0).build();
+        Member member = Member.builder().loginId("test@test.com").company(1).state(1).build();
+//        Member member1 = Member.builder().loginId("lmo9903@naver.com").company(1).state(1).build();
+//        Member member2 = Member.builder().loginId("lmo9903@gmail.com").company(0).state(0).build();
 
         //when
         Long result = memberService.join(member);
         Long find = memberRepository.findByLoginId(member.getLoginId()).getSeq();
 
-        Long exist = memberService.join(member);
-
         //then
 //        log.info("result : {}", result);
         log.info("result : {}, find : {}", result, find);
         assertThat(result).isEqualTo(find);
-        assertThat(exist).isEqualTo(0L);
     }
 
     @Test
@@ -76,6 +75,41 @@ public class MemberServiceTest {
         });
 
         // then
-        assertThat(memberService.memberAll().size()).isEqualTo(20);
+        assertThat(memberService.memberAll().size()).isEqualTo(22);
+    }
+
+    @Test
+    void memberUpdateServiceTest() {
+        // given
+        Member m = makeUser(1);
+
+        memberService.join(m);
+
+        // when
+        memberService.updateMemberState(m.getLoginId(), 1);
+        Member result = memberService.findByEmail(m.getLoginId());
+
+        // then
+        assertThat(m.getLoginId()).isEqualTo(result.getLoginId());
+        assertThat(m.getState()).isNotEqualTo(result.getState());
+    }
+
+    @Test
+    void memberDeleteTest() {
+        // given
+        Member m = makeUser(1);
+
+        memberService.join(m);
+        boolean test = memberService.existMember(m);
+
+        // when
+        memberService.deleteByEmail(m.getLoginId());
+        boolean result = memberService.existMember(m);
+
+        log.info("before delete data : {}", test);
+        log.info("after delete data : {}", result);
+
+        // then
+        assertThat(result).isEqualTo(false);
     }
 }

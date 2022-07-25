@@ -54,4 +54,29 @@ public class MemberRepoTest {
         assertThat(entity.getCompany()).isEqualTo(result.getCompany());
         assertThat(entity.getState()).isEqualTo(result.getState());
     }
+
+    @Test
+    void MemberUpdateStateTest() {
+        // given
+        MemberEntity entity = MemberEntity.builder()
+                .loginId("test@test.com")
+                .state(0)
+                .company(0)
+                .build();
+
+        memberRepository.save(entity);
+        MemberEntity find = memberRepository.findByLoginId("test@test.com");
+        log.info("before update value : {}", find);
+
+        // when
+        memberRepository.updateMemberState(find.getSeq(), 1);
+        MemberEntity result = memberRepository.findByLoginId("test@test.com");
+
+        log.info("after update value : {}", result);
+
+        // then
+        assertThat(entity.getLoginId()).isEqualTo(result.getLoginId());
+        assertThat(entity.getCompany()).isEqualTo(result.getCompany());
+        assertThat(result.getState()).isEqualTo(1);
+    }
 }
