@@ -9,6 +9,7 @@ public interface MemberService {
     Long join(Member member);
     Boolean existMember(Member member);
     Member findByEmail(String loginId);
+    Member findByEmailNCompany(String loginId, int company);
     List<Member> memberAll();
     void deleteByEmail(String email);
     void updateMemberState(String email, int state);

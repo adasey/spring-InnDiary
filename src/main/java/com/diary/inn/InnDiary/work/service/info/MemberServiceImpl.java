@@ -56,6 +56,11 @@ public class MemberServiceImpl implements MemberService, MemberConversionService
     }
 
     @Override
+    public Member findByEmailNCompany(String loginId, int company) {
+        return entityToDto(memberRepository.findByLoginIdNCompany(loginId, company));
+    }
+
+    @Override
     public List<Member> memberAll() {
         List<MemberEntity> search = memberRepository.findAll();
         List<Member> result = new ArrayList<>();

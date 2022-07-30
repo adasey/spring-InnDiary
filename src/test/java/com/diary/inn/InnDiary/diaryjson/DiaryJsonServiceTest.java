@@ -76,7 +76,7 @@ public class DiaryJsonServiceTest {
         return objectMapper.writeValueAsString(maps);
     }
 
-    @BeforeEach
+//    @BeforeEach
     void saveMember() {
         IntStream.rangeClosed(1, 3).forEach(i -> {
             Member member = Member.builder()
@@ -89,7 +89,18 @@ public class DiaryJsonServiceTest {
         });
     }
 
-    @AfterEach
+    @BeforeEach
+    void dbSave() {
+        Member member = Member.builder()
+                .loginId("test@test.com")
+                .company(0)
+                .state(0)
+                .build();
+
+        memberService.join(member);
+    }
+
+//    @AfterEach
     void deleteAll() {
         diaryJsonRepository.deleteAll();
         memberRepository.deleteAll();
@@ -180,6 +191,26 @@ public class DiaryJsonServiceTest {
 
         // then
         diaryJson.ifPresent(entity -> assertThat(findSeq).isEqualTo(entity.getSeq()));
+    }
+
+    @Test
+    void realTest() throws JsonProcessingException {
+        // given
+        Member find = memberService.findByEmail("test@test.com");
+
+        DiaryJson dto = DiaryJson.builder()
+                .memberSeq(find.getSeq())
+                .memberState(find.getState())
+                .memberCompany(find.getCompany())
+                .memberId(find.getLoginId())
+                .saveTitle("test")
+                .diary(JsonGenerator(1))
+                .build();
+
+        // when
+        diaryJsonService.join(dto);
+
+        // then
     }
 
     @Test

@@ -38,6 +38,26 @@ public class MemberRepoTest {
     }
 
     @Test
+    void findMemberTestWithEmailAndCompany() {
+        // given
+        MemberEntity entity = MemberEntity.builder()
+                .loginId("test@test.com")
+                .state(0)
+                .company(0)
+                .build();
+
+        MemberEntity check = null;
+
+        MemberEntity result = memberRepository.save(entity);
+
+        // when
+        check = memberRepository.findByLoginIdNCompany(entity.getLoginId(), entity.getCompany());
+
+        // then
+        assertThat(check).isEqualTo(result);
+    }
+
+    @Test
     void saveMemberEntity() {
         // given
         MemberEntity entity = MemberEntity.builder()

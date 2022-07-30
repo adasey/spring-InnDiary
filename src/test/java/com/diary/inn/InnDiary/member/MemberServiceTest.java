@@ -68,6 +68,21 @@ public class MemberServiceTest {
     }
 
     @Test
+    void findWithEmailAndCompanyTest() {
+        //given
+        Member member = Member.builder().loginId("test@test.com").company(1).state(1).build();
+        Long take = memberService.join(member);
+
+        //when
+        MemberEntity result = memberRepository.findByLoginIdNCompany(member.getLoginId(), member.getCompany());
+
+        //then
+//        log.info("result : {}", result);
+        log.info("result : {}", result);
+        assertThat(member.getLoginId()).isEqualTo(result.getLoginId());
+    }
+
+    @Test
     void allMemberFound() {
         // given, when
         IntStream.rangeClosed(1, 20).forEach(i -> {
