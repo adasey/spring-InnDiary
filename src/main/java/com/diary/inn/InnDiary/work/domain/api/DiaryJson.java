@@ -8,11 +8,19 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @Setter
+@ToString
 @EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 public class DiaryJson {
     private Long seq;
-    private String save;
-    private String loginId;
-    private String Json;
+    private String saveTitle;
+    private String diary;
+
+    private Long memberSeq;
+    private String memberId;
+    private int memberState;
+    private int memberCompany;
+
     private LocalDateTime modDate;
 }

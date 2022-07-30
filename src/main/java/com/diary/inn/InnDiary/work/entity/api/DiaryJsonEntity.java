@@ -27,18 +27,18 @@ public class DiaryJsonEntity extends BaseEntity {
     @GenericGenerator(name = "native", strategy = "native")
     private Long seq;
 
-    @Column(length = 10)
+    @Column(length = 50)
     private String saveTitle;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    private MemberEntity user;
+    private MemberEntity member;
 
     @Type(type = "json")
     @Column(columnDefinition = "json")
     private String diary;
 
-    public void setUser(MemberEntity user) {
-        this.user = user;
+    public void setUser(MemberEntity member) {
+        this.member = member;
     }
 }

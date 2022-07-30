@@ -7,7 +7,6 @@ import com.diary.inn.InnDiary.work.repository.api.ModifyDiaryJsonRepository;
 import com.diary.inn.InnDiary.work.service.info.MemberConversionService;
 import com.diary.inn.InnDiary.work.service.info.MemberService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -100,42 +100,58 @@ public class DiaryJsonRepoTest {
     @BeforeEach
     @Transactional
     void saveMember() {
-        Member member = Member.builder()
-                .loginId("test")
-                .company(0)
-                .state(0)
-                .build();
-        memberService.join(member);
+        IntStream.rangeClosed(1, 3).forEach(i -> {
+            Member member = Member.builder()
+                    .loginId("test" + i)
+                    .company(0)
+                    .state(0)
+                    .build();
+            memberService.join(member);
+        });
     }
 
     @Test
     @Transactional
     void diaryRepoFindAllSingleSingleJsonTest() throws JsonProcessingException {
         // given
-        DiaryJsonEntity entity = DiaryJsonEntity.builder()
-                .user(memberConversionService.dtoToEntity(memberService.findByEmail("test")))
-                .saveTitle("test")
-                .diary(JsonGenerator(1))
-                .build();
+        AtomicReference<Member> member = new AtomicReference<>(); // 공부할 것.
 
-        DiaryJsonEntity result = diaryJsonRepository.save(entity);
+        List<DiaryJsonEntity> result = new ArrayList<>();
+        IntStream.rangeClosed(1, 3).forEach(i -> {
+            member.set(memberService.findByEmail("test" + i));
+
+            DiaryJsonEntity entity = null;
+            try {
+                entity = DiaryJsonEntity.builder()
+                        .member(memberConversionService.dtoToEntity(member.get()))
+                        .saveTitle("test" + i)
+                        .diary(JsonGenerator(i))
+                        .build();
+                 result.add(diaryJsonRepository.save(entity));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        });
 
         // when
-        List<DiaryJsonEntity> test = modifyDiaryJsonRepository.findAllByEmail("test");
+        List<DiaryJsonEntity> test = modifyDiaryJsonRepository.findAllByEmailNCompany(memberConversionService.dtoToEntity(member.get()));
 
         // then
-        log.info("test of saving : {} {}", entity, result);
+        log.info("test of saving : {} {}", member, result.get(0).getMember());
         log.info("check what's inside : {}", test.get(0));
-        assertThat(test.get(0)).isEqualTo(result);
-        assertThat(test.get(0).getDiary()).isEqualTo(JsonGenerator(1));
+        assertThat(test.get(0)).isEqualTo(result.get(2));
+        assertThat(test.get(0).getDiary()).isEqualTo(JsonGenerator(3));
     }
 
     @Test
     @Transactional
     void diaryRepoFindAllSingleBunchJsonTest() throws JsonProcessingException {
+        // works fine. but if i use service, it didn't work
         // given
+        Member member = memberService.findByEmail("test1");
+
         DiaryJsonEntity entity = DiaryJsonEntity.builder()
-                .user(memberConversionService.dtoToEntity(memberService.findByEmail("test")))
+                .member(memberConversionService.dtoToEntity(member))
                 .saveTitle("test")
                 .diary(LotsJsonGenerator(1))
                 .build();
@@ -143,7 +159,7 @@ public class DiaryJsonRepoTest {
         DiaryJsonEntity result = diaryJsonRepository.save(entity);
 
         // when
-        List<DiaryJsonEntity> test = modifyDiaryJsonRepository.findAllByEmail("test");
+        List<DiaryJsonEntity> test = modifyDiaryJsonRepository.findAllByEmailNCompany(memberConversionService.dtoToEntity(member));
 
         // then
         log.info("test of saving : {} {}", entity, result);
@@ -156,6 +172,8 @@ public class DiaryJsonRepoTest {
     @Transactional
     void diaryRepoFindAllBunchJsonTest() {
         // given
+        Member member = memberService.findByEmail("test1");
+
         List<DiaryJsonEntity> results = new ArrayList<>();
 
         IntStream.rangeClosed(1, 3).forEach(i -> {
@@ -167,7 +185,7 @@ public class DiaryJsonRepoTest {
             }
 
             DiaryJsonEntity entity = DiaryJsonEntity.builder()
-                    .user(memberConversionService.dtoToEntity(memberService.findByEmail("test")))
+                    .member(memberConversionService.dtoToEntity(member))
                     .saveTitle("test" + i)
                     .diary(json)
                     .build();
@@ -176,7 +194,7 @@ public class DiaryJsonRepoTest {
         });
 
         // when
-        List<DiaryJsonEntity> test = modifyDiaryJsonRepository.findAllByEmail("test");
+        List<DiaryJsonEntity> test = modifyDiaryJsonRepository.findAllByEmailNCompany(memberConversionService.dtoToEntity(member));
 
         // then
         for (int i = 1; i <= 3; i++) {
@@ -200,6 +218,8 @@ public class DiaryJsonRepoTest {
     @Transactional
     void diaryRepoFindBySaveTest() {
         // given
+        Member member = memberService.findByEmail("test1");
+
         List<DiaryJsonEntity> results = new ArrayList<>();
 
         IntStream.rangeClosed(1, 3).forEach(i -> {
@@ -211,7 +231,7 @@ public class DiaryJsonRepoTest {
                 e.printStackTrace();
             }
             DiaryJsonEntity entity = DiaryJsonEntity.builder()
-                    .user(memberConversionService.dtoToEntity(memberService.findByEmail("test")))
+                    .member(memberConversionService.dtoToEntity(member))
                     .saveTitle("test" + i)
                     .diary(json)
                     .build();
@@ -222,7 +242,7 @@ public class DiaryJsonRepoTest {
         });
 
         // when
-        DiaryJsonEntity test = modifyDiaryJsonRepository.findByEmailNSave("test", "test1");
+        DiaryJsonEntity test = modifyDiaryJsonRepository.findByEmailNCompanyWithSave(memberConversionService.dtoToEntity(member), "test1");
 
         // then
         log.info("result test : {}", test);
@@ -234,6 +254,8 @@ public class DiaryJsonRepoTest {
     @Transactional
     void diaryRepoSaveJsonByEmailNSaveTest() throws JsonProcessingException {
         // given
+        Member member = memberService.findByEmail("test1");
+
         List<DiaryJsonEntity> results = new ArrayList<>();
 
         IntStream.rangeClosed(1, 3).forEach(i -> {
@@ -245,7 +267,60 @@ public class DiaryJsonRepoTest {
                 e.printStackTrace();
             }
             DiaryJsonEntity entity = DiaryJsonEntity.builder()
-                    .user(memberConversionService.dtoToEntity(memberService.findByEmail("test")))
+                    .member(memberConversionService.dtoToEntity(member))
+                    .saveTitle("test" + i)
+                    .diary(json)
+                    .build();
+
+            results.add(entity);
+            diaryJsonRepository.save(entity);
+        });
+
+//        JsonNode js = objectMapper.readTree(JsonGenerator(2));
+//        JsonNode js = objectMapper.readTree(LotsJsonGenerator(1));
+
+        DiaryJsonEntity diaryJson = DiaryJsonEntity.builder()
+                .member(memberConversionService.dtoToEntity(member))
+                .saveTitle("test1")
+                .diary(JsonGenerator(2))
+                .build();
+
+        DiaryJsonEntity test = modifyDiaryJsonRepository.findByEmailNCompanyWithSave(memberConversionService.dtoToEntity(member), "test1");
+        log.info("result test : {}", test);
+
+        test.setDiary(JsonGenerator(2));
+
+        // when
+        modifyDiaryJsonRepository.updateJson(test.getSeq(), diaryJson.getDiary());
+        DiaryJsonEntity found = modifyDiaryJsonRepository.findByEmailNCompanyWithSave(memberConversionService.dtoToEntity(member), "test1");
+
+        // then
+        log.info("founded value : {}", found);
+
+        assertThat(results.get(0)).isEqualTo(test);
+        assertThat(found.getMember().getLoginId()).isEqualTo(diaryJson.getMember().getLoginId());
+        assertThat(found.getDiary()).isEqualTo(diaryJson.getDiary());
+        assertThat(test.getDiary()).isEqualTo(found.getDiary());
+    }
+
+    @Test
+    @Transactional
+    void diaryRepoSaveSaveTitleByEmailNSaveTest() throws JsonProcessingException {
+        // given
+        Member member = memberService.findByEmail("test1");
+
+        List<DiaryJsonEntity> results = new ArrayList<>();
+
+        IntStream.rangeClosed(1, 3).forEach(i -> {
+            String json = null;
+
+            try {
+                json = LotsJsonGenerator(i);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            DiaryJsonEntity entity = DiaryJsonEntity.builder()
+                    .member(memberConversionService.dtoToEntity(member))
                     .saveTitle("test" + i)
                     .diary(json)
                     .build();
@@ -257,25 +332,25 @@ public class DiaryJsonRepoTest {
 //        JsonNode js = objectMapper.readTree(LotsJsonGenerator(1));
 
         DiaryJsonEntity diaryJson = DiaryJsonEntity.builder()
-                .user(memberConversionService.dtoToEntity(memberService.findByEmail("test")))
-                .saveTitle("test1")
+                .member(memberConversionService.dtoToEntity(member))
+                .saveTitle("test test")
                 .diary(JsonGenerator(2))
                 .build();
 
-        DiaryJsonEntity test = modifyDiaryJsonRepository.findByEmailNSave("test", "test1");
+        DiaryJsonEntity test = modifyDiaryJsonRepository.findByEmailNCompanyWithSave(memberConversionService.dtoToEntity(member), "test1");
         log.info("result test : {}", test);
 
-        test.setDiary(JsonGenerator(2));
+        test.setSaveTitle("test test");
 
         // when
-        modifyDiaryJsonRepository.updateJsonByEmailNSave(test);
-        DiaryJsonEntity found = modifyDiaryJsonRepository.findByEmailNSave("test", "test1");
+        modifyDiaryJsonRepository.updateSaveTitle(test.getSeq(), test.getSaveTitle());
+        DiaryJsonEntity found = modifyDiaryJsonRepository.findByEmailNCompanyWithSave(memberConversionService.dtoToEntity(member), "test test");
 
         // then
         log.info("founded value : {}", found);
 
         assertThat(results.get(0)).isEqualTo(test);
-        assertThat(found.getUser().getLoginId()).isEqualTo(diaryJson.getUser().getLoginId());
-        assertThat(found.getDiary()).isEqualTo(diaryJson.getDiary());
+        assertThat(found.getMember().getLoginId()).isEqualTo(diaryJson.getMember().getLoginId());
+        assertThat(found.getSaveTitle()).isEqualTo(diaryJson.getSaveTitle());
     }
 }

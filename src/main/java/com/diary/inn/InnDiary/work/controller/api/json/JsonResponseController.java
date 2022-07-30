@@ -29,30 +29,6 @@ public class JsonResponseController {
     public List<DiaryJson> diaryRequest() throws JsonProcessingException {
         List<DiaryJson> data = new ArrayList<>();
 
-        String jsonTest = "[{ " +
-                "\"title\" : \"test\", " +
-                "\"date\" : \"20220707\", " +
-                "\"weather\" : 0, " +
-                "\"status\" : 0, " +
-                "\"content\" : \"test for\"" +
-                "}, " +
-                "{ " +
-                "\"title\" : \"test\", " +
-                "\"date\" : \"20220707\", " +
-                "\"weather\" : 0, " +
-                "\"status\" : 0, " +
-                "\"content\" : \"test for\"" +
-                "}]";
-
-        DiaryJson diaryJson = DiaryJson.builder()
-                .save("1")
-                .loginId("test@test.com")
-                .Json(jsonTest)
-                .modDate(LocalDateTime.now())
-                .build();
-
-        data.add(diaryJson);
-
         return data;
     }
 
@@ -61,37 +37,12 @@ public class JsonResponseController {
     public List<ToDoJson> toDoRequest() throws JsonProcessingException {
         List<ToDoJson> data = new ArrayList<>();
 
-        String jsonTest = "[{ " +
-                "\"title\" : \"test\", " +
-                "\"date\" : \"20220707\", " +
-                "\"weather\" : 0, " +
-                "\"status\" : 0, " +
-                "\"content\" : \"test for\"" +
-                "}, " +
-                "{ " +
-                "\"title\" : \"test\", " +
-                "\"date\" : \"20220707\", " +
-                "\"weather\" : 0, " +
-                "\"status\" : 0, " +
-                "\"content\" : \"test for\"" +
-                "}]";
-
-        ToDoJson toDoJson = ToDoJson.builder()
-                .save("test")
-                .loginId("test@test.com")
-                .Json(jsonTest)
-                .modDate(LocalDateTime.now())
-                .build();
-
-        data.add(toDoJson);
-
         return data;
     }
 
     @ResponseBody
     @PostMapping("/send/diary")
     public DiaryJson diaryResponse(@RequestBody DiaryJson diaryJson) {
-        log.info("DiaryJson = {}", diaryJson.getLoginId());
 
         return diaryJson;
     }
@@ -99,7 +50,6 @@ public class JsonResponseController {
     @ResponseBody
     @PostMapping("/send/todo")
     public ToDoJson todoResponse(ToDoJson toDoJson) {
-        log.info("helloData = {}", toDoJson.getLoginId());
 
         return toDoJson;
     }

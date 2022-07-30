@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ToDoJsonRepository extends JpaRepository<ToDoJsonEntity, Long> {
-    @Query("select t from ToDoJsonEntity t where t.user = :email")
+    @Query("select t from ToDoJsonEntity t where t.member = :email")
     List<ToDoJsonEntity> findByLoginId(@Param("email") String user);
 }
