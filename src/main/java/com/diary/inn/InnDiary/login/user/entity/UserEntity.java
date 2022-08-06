@@ -26,15 +26,19 @@ public class UserEntity extends BaseEntity {
     @Column
     private String picture;
 
+    @Column
+    private int company;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
     @Builder
-    public UserEntity(String name, String email, String picture, Role role) {
+    public UserEntity(String name, String email, String picture, int company, Role role) {
         this.name = name;
         this.email = email;
         this.picture = picture;
+        this.company = company;
         this.role = role;
     }
 
@@ -47,5 +51,8 @@ public class UserEntity extends BaseEntity {
 
     public String getRoleKey() {
         return this.role.getKey();
+    }
+    public int getCompany() {
+        return this.company;
     }
 }

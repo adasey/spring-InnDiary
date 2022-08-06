@@ -15,14 +15,19 @@ public class OAuthAttributes {
     private String nameAttributeKey;
     private String name;
     private String email;
+    private int company;
     private String picture;
 
+    private static final int GOOGLE_COM = 0;
+    private static final int KAKAO_COM = 1;
+
     @Builder
-    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture) {
+    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, int company, String picture) {
         this.attributes = attributes;
         this.nameAttributeKey= nameAttributeKey;
         this.name = name;
         this.email = email;
+        this.company = company;
         this.picture = picture;
     }
 
@@ -40,6 +45,7 @@ public class OAuthAttributes {
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .picture((String) attributes.get("picture"))
+                .company(GOOGLE_COM)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -63,6 +69,7 @@ public class OAuthAttributes {
                 .name(nickname)
                 .email(email)
                 .picture(image)
+                .company(KAKAO_COM)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -73,6 +80,7 @@ public class OAuthAttributes {
                 .name(name)
                 .email(email)
                 .picture(picture)
+                .company(company)
                 .role(Role.USER)
                 .build();
     }
@@ -82,6 +90,7 @@ public class OAuthAttributes {
                 .name(name)
                 .email(email)
                 .picture(picture)
+                .company(company)
                 .role(Role.ADMIN)
                 .build();
     }

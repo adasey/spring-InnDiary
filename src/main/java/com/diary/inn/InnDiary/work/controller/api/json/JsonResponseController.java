@@ -34,11 +34,28 @@ public class JsonResponseController {
     public ObjectMapper objectMapper = new ObjectMapper();
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/send/diary")
-    public List<DiaryJson> diaryRequest(@RequestParam("email") String loginId, @RequestParam("company") int company) throws JsonProcessingException {
+    @GetMapping("/register/member")
+    public Member memberRegister(@RequestParam("email") String loginId, @RequestParam("company") int company) {
         Member findMember = memberService.findByEmailNCompany(loginId, company);
 
-        return diaryJsonService.userDataFindAll(findMember);
+        if (findMember != null) {
+            return findMember;
+        }
+        else {
+            return Member.builder().seq(null).loginId(null).state(0).company(0).build();
+        }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/send/diary")
+    public List<DiaryJson> diaryRequest(@RequestParam("email") String loginId, @RequestParam("company") int company) {
+        Member findMember = memberService.findByEmailNCompany(loginId, company);
+
+        if (findMember != null) {
+            return diaryJsonService.userDataFindAll(findMember);
+        }
+
+        return null;
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -74,17 +91,32 @@ public class JsonResponseController {
     }
 
     @ResponseBody
+    @PostMapping("/register/member")
+    public Member memberRegister(@RequestBody Member member) {
+        if (!memberService.existMember(member)) {
+            memberService.join(member);
+        }
+
+        return memberService.findByEmailNCompany(member.getLoginId(), member.getCompany());
+    }
+
+    @ResponseBody
     @PostMapping("/send/diary")
     public DiaryJson diaryResponse(@RequestBody DiaryJson diaryJson) {
         Member findMember = memberService.findByEmailNCompany(diaryJson.getMemberId(), diaryJson.getMemberCompany());
 
         DiaryJson findDiary = diaryJsonService.userDataFindWithSave(findMember, diaryJson.getSaveTitle());
 
-        if (!diaryJson.getDiary().equals(findDiary.getDiary())) {
-            diaryJsonService.uploadToJson(findDiary.getSeq(), diaryJson.getDiary());
+        if (findDiary != null) {
+            if (!diaryJson.getDiary().equals(findDiary.getDiary())) {
+                diaryJsonService.uploadToJson(findDiary.getSeq(), diaryJson.getDiary());
+            }
+            if (!diaryJson.getSaveTitle().equals(findDiary.getSaveTitle())) {
+                diaryJsonService.uploadToSaveTitle(findDiary.getSeq(), diaryJson.getSaveTitle());
+            }
         }
-        if (!diaryJson.getSaveTitle().equals(findDiary.getSaveTitle())) {
-            diaryJsonService.uploadToSaveTitle(findDiary.getSeq(), diaryJson.getSaveTitle());
+        else {
+            diaryJsonService.join(diaryJson);
         }
 
         return diaryJsonService.userDataFindWithSave(findMember, diaryJson.getSaveTitle());

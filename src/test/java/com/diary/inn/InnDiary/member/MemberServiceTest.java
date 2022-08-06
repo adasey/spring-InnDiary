@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @SpringBootTest
-@Transactional
+//@Transactional
 public class MemberServiceTest {
 
     @Autowired
@@ -53,18 +53,20 @@ public class MemberServiceTest {
     @Test
     void joinTest() {
         //given
-        Member member = Member.builder().loginId("test@test.com").company(1).state(1).build();
-//        Member member1 = Member.builder().loginId("lmo9903@naver.com").company(1).state(1).build();
-//        Member member2 = Member.builder().loginId("lmo9903@gmail.com").company(0).state(0).build();
+//        Member member = Member.builder().loginId("test@test.com").company(1).state(1).build();
+        Member member1 = Member.builder().loginId("lmo9903@naver.com").company(1).state(0).build();
+        Member member2 = Member.builder().loginId("lmo9903@gmail.com").company(0).state(1).build();
 
         //when
-        Long result = memberService.join(member);
-        Long find = memberRepository.findByLoginId(member.getLoginId()).getSeq();
+        memberService.join(member1);
+        memberService.join(member2);
+//        Long result = memberService.join(member);
+//        Long find = memberRepository.findByLoginId(member.getLoginId()).getSeq();
 
         //then
 //        log.info("result : {}", result);
-        log.info("result : {}, find : {}", result, find);
-        assertThat(result).isEqualTo(find);
+//        log.info("result : {}, find : {}", result, find);
+//        assertThat(result).isEqualTo(find);
     }
 
     @Test
