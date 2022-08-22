@@ -1,5 +1,6 @@
 package com.diary.inn.InnDiary.work.entity.info;
 
+import com.diary.inn.InnDiary.work.entity.api.ToDoJsonEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -7,7 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "web_ToDo")
+@Table(name = "web_Todo")
 @ToString
 @Getter
 @Setter
@@ -21,22 +22,19 @@ public class ToDoEntity {
     @GenericGenerator(name = "native", strategy = "native")
     private Long seq;
 
+    @Column(name = "todo_id")
+    private Long todoId;
+
     @Column
     private String title;
-
-    @Column
-    private int weather;
-
-    @Column
-    private int status;
 
     @Column
     private String content;
 
     @Column
-    private LocalDateTime reg_date;
+    private LocalDateTime todoDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    private MemberEntity member;
+    private ToDoJsonEntity todo;
 }

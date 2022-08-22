@@ -2,6 +2,8 @@ package com.diary.inn.InnDiary.work.domain.info;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 @Builder
@@ -9,9 +11,14 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ToDo {
+    private Long seq;
+
+    private Long toDoId;
     private String title;
-    private String regDate;
-    private Integer weather;
-    private Integer status;
+    private LocalDateTime toDoDate;
     private String content;
+
+    private Long toDoJsonSeq;
+    private String toDoSaveTitle;
+    private LocalDateTime toDoSaveDate;
 }

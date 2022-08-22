@@ -55,7 +55,7 @@ public class MemberServiceTest {
         //given
 //        Member member = Member.builder().loginId("test@test.com").company(1).state(1).build();
         Member member1 = Member.builder().loginId("lmo9903@naver.com").company(1).state(0).build();
-        Member member2 = Member.builder().loginId("lmo9903@gmail.com").company(0).state(1).build();
+        Member member2 = Member.builder().loginId("lmo9903@gmail.com").company(0).state(0).build();
 
         //when
         memberService.join(member1);
