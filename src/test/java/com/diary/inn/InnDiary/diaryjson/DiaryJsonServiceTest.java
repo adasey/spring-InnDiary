@@ -51,6 +51,7 @@ public class DiaryJsonServiceTest {
 
     public String JsonGenerator(int id) throws JsonProcessingException {
         HashMap<String, Object> map = new HashMap<>();
+        map.put("seq", id);
         map.put("title", "test" + id);
         map.put("reg_date", "20220707" + id);
         map.put("weather", 0);
@@ -64,6 +65,7 @@ public class DiaryJsonServiceTest {
 
         for (int i = 1; i <= 3; i++) {
             HashMap<String, Object> map = new HashMap<>();
+            map.put("seq", id);
             map.put("title", "test" + id);
             map.put("reg_date", "20220707" + id);
             map.put("weather", 0);
@@ -89,7 +91,7 @@ public class DiaryJsonServiceTest {
         });
     }
 
-    @BeforeEach
+//    @BeforeEach
     void dbSave() {
         Member member = Member.builder()
                 .loginId("test@test.com")

@@ -1,25 +1,26 @@
 package com.diary.inn.InnDiary.work.service.api;
 
-import com.diary.inn.InnDiary.work.domain.api.DiaryJson;
 import com.diary.inn.InnDiary.work.domain.api.ToDoJson;
 import com.diary.inn.InnDiary.work.domain.info.Member;
-import com.diary.inn.InnDiary.work.entity.api.DiaryJsonEntity;
 import com.diary.inn.InnDiary.work.entity.api.ToDoJsonEntity;
 import com.diary.inn.InnDiary.work.entity.info.MemberEntity;
 import com.diary.inn.InnDiary.work.repository.api.ModifyToDoJsonRepository;
 import com.diary.inn.InnDiary.work.repository.api.ToDoJsonRepository;
 import com.diary.inn.InnDiary.work.service.info.MemberConversionService;
+import com.diary.inn.InnDiary.work.service.info.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class ToDoJsonServiceImpl implements ToDoJsonConversionService, ToDoJsonService {
     private final ToDoJsonRepository toDoJsonRepository;
     private final ModifyToDoJsonRepository modifyToDoJsonRepository;
+    private final MemberService memberService;
     private final MemberConversionService memberConversionService;
 
     @Override
@@ -81,6 +82,19 @@ public class ToDoJsonServiceImpl implements ToDoJsonConversionService, ToDoJsonS
         ToDoJsonEntity find = modifyToDoJsonRepository.findByEmailNCompanyWithSave(memberConversionService.dtoToEntity(member), saveTitle);
 
         toDoJsonRepository.delete(find);
+    }
+
+    @Override
+    public ToDoJson savedToDoFind(Long seq) {
+        Optional<ToDoJsonEntity> found = toDoJsonRepository.findById(seq);
+
+        if (found.isPresent()) {
+            Member member = memberService.findByEmailNCompany(found.get().getMember().getLoginId(), found.get().getMember().getCompany());
+
+            return entityToDto(found.get(), memberConversionService.dtoToEntity(member));
+        }
+
+        return null;
     }
 
     @Override

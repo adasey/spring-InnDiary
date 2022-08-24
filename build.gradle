@@ -32,6 +32,8 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	implementation 'org.projectlombok:lombok:1.18.20'
 
+	implementation group: 'com.google.firebase', name: 'firebase-admin', version: '8.1.0'
+
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
 	implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.2'
 	implementation 'com.vladmihalcea:hibernate-types-52:2.16.2'

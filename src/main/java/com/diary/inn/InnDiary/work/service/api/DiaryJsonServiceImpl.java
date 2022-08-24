@@ -7,17 +7,20 @@ import com.diary.inn.InnDiary.work.entity.info.MemberEntity;
 import com.diary.inn.InnDiary.work.repository.api.DiaryJsonRepository;
 import com.diary.inn.InnDiary.work.repository.api.ModifyDiaryJsonRepository;
 import com.diary.inn.InnDiary.work.service.info.MemberConversionService;
+import com.diary.inn.InnDiary.work.service.info.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class DiaryJsonServiceImpl implements DiaryJsonService, DiaryJsonConversionService {
     private final DiaryJsonRepository diaryJsonRepository;
     private final ModifyDiaryJsonRepository modifyDiaryJsonRepository;
+    private final MemberService memberService;
     private final MemberConversionService memberConversionService;
 
     @Override
@@ -79,6 +82,19 @@ public class DiaryJsonServiceImpl implements DiaryJsonService, DiaryJsonConversi
         DiaryJsonEntity find = modifyDiaryJsonRepository.findByEmailNCompanyWithSave(memberConversionService.dtoToEntity(member), saveTitle);
 
         diaryJsonRepository.delete(find);
+    }
+
+    @Override
+    public DiaryJson savedDiaryFind(Long seq) {
+        Optional<DiaryJsonEntity> found = diaryJsonRepository.findById(seq);
+
+        if (found.isPresent()) {
+            Member member = memberService.findByEmailNCompany(found.get().getMember().getLoginId(), found.get().getMember().getCompany());
+
+            return entityToDto(found.get(), memberConversionService.dtoToEntity(member));
+        }
+
+        return null;
     }
 
     @Override

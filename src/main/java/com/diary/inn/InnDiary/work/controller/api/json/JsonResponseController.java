@@ -3,21 +3,16 @@ package com.diary.inn.InnDiary.work.controller.api.json;
 import com.diary.inn.InnDiary.work.domain.api.DiaryJson;
 import com.diary.inn.InnDiary.work.domain.api.ToDoJson;
 import com.diary.inn.InnDiary.work.domain.info.Member;
-import com.diary.inn.InnDiary.work.service.api.DiaryJsonConversionService;
 import com.diary.inn.InnDiary.work.service.api.DiaryJsonService;
-import com.diary.inn.InnDiary.work.service.info.MemberConversionService;
+import com.diary.inn.InnDiary.work.service.api.ToDoJsonService;
 import com.diary.inn.InnDiary.work.service.info.MemberService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /*
 * rest api controller
@@ -30,8 +25,7 @@ import java.util.Optional;
 public class JsonResponseController {
     private final MemberService memberService;
     private final DiaryJsonService diaryJsonService;
-
-    public ObjectMapper objectMapper = new ObjectMapper();
+    private final ToDoJsonService toDoJsonService;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/register/member")
@@ -60,34 +54,14 @@ public class JsonResponseController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/send/todo")
-    public List<ToDoJson> toDoRequest() throws JsonProcessingException {
-        List<ToDoJson> data = new ArrayList<>();
+    public List<ToDoJson> toDoRequest(@RequestParam("email") String loginId, @RequestParam("company") int company) throws JsonProcessingException {
+        Member findMember = memberService.findByEmailNCompany(loginId, company);
 
-        String jsonTest = "[{ " +
-                "\"title\" : \"test\", " +
-                "\"date\" : \"20220707\", " +
-                "\"weather\" : 0, " +
-                "\"status\" : 0, " +
-                "\"content\" : \"test for\"" +
-                "}, " +
-                "{ " +
-                "\"title\" : \"test\", " +
-                "\"date\" : \"20220707\", " +
-                "\"weather\" : 0, " +
-                "\"status\" : 0, " +
-                "\"content\" : \"test for\"" +
-                "}]";
+        if (findMember != null) {
+            return toDoJsonService.userDataFindAll(findMember);
+        }
 
-        ToDoJson toDoJson = ToDoJson.builder()
-                .saveTitle("test")
-                .memberId("test@test.com")
-                .todo(jsonTest)
-                .modDate(LocalDateTime.now())
-                .build();
-
-        data.add(toDoJson);
-
-        return data;
+        return null;
     }
 
     @ResponseBody
@@ -111,11 +85,9 @@ public class JsonResponseController {
             if (!diaryJson.getDiary().equals(findDiary.getDiary())) {
                 diaryJsonService.uploadToJson(findDiary.getSeq(), diaryJson.getDiary());
             }
-            if (!diaryJson.getSaveTitle().equals(findDiary.getSaveTitle())) {
-                diaryJsonService.uploadToSaveTitle(findDiary.getSeq(), diaryJson.getSaveTitle());
-            }
         }
         else {
+            diaryJson.setMemberSeq(findMember.getSeq());
             diaryJsonService.join(diaryJson);
         }
 
@@ -124,9 +96,21 @@ public class JsonResponseController {
 
     @ResponseBody
     @PostMapping("/send/todo")
-    public ToDoJson todoResponse(ToDoJson toDoJson) {
-        log.info("helloData = {}", toDoJson.getMemberId());
+    public ToDoJson todoResponse(@RequestBody ToDoJson toDoJson) {
+        Member findMember = memberService.findByEmailNCompany(toDoJson.getMemberId(), toDoJson.getMemberCompany());
 
-        return toDoJson;
+        ToDoJson findToDo = toDoJsonService.userDataFindWithSave(findMember, toDoJson.getSaveTitle());
+
+        if (findToDo != null) {
+            if (!toDoJson.getTodo().equals(findToDo.getTodo())) {
+                toDoJsonService.uploadToJson(findToDo.getSeq(), toDoJson.getTodo());
+            }
+        }
+        else {
+            toDoJson.setMemberSeq(findMember.getSeq());
+            toDoJsonService.join(toDoJson);
+        }
+
+        return toDoJsonService.userDataFindWithSave(findMember, toDoJson.getSaveTitle());
     }
 }

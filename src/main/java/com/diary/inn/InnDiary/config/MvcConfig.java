@@ -1,4 +1,4 @@
-package com.diary.inn.InnDiary.config.mvc;
+package com.diary.inn.InnDiary.config;
 
 import com.diary.inn.InnDiary.login.LoginSessionArgumentResolver;
 import lombok.RequiredArgsConstructor;

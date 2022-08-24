@@ -1,6 +1,6 @@
 package com.diary.inn.InnDiary.work.entity.info;
 
-import com.diary.inn.InnDiary.work.domain.info.Member;
+import com.diary.inn.InnDiary.work.entity.api.DiaryJsonEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -22,6 +22,9 @@ public class DiaryEntity {
     @GenericGenerator(name = "native", strategy = "native")
     private Long seq;
 
+    @Column(name = "diary_id")
+    private Long diaryId;
+
     @Column
     private String title;
 
@@ -35,9 +38,9 @@ public class DiaryEntity {
     private String content;
 
     @Column
-    private LocalDateTime reg_date;
+    private LocalDateTime DiaryDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    private MemberEntity member;
+    private DiaryJsonEntity diary;
 }

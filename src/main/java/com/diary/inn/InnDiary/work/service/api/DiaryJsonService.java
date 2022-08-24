@@ -10,6 +10,7 @@ public interface DiaryJsonService{
     void uploadToJson(Long seq, String json);
     void uploadToSaveTitle(Long seq, String saveTitle);
     void deleteWithEmailNSave(Member dto, String saveTitle);
+    DiaryJson savedDiaryFind(Long seq);
     DiaryJson userDataFindWithSave(Member dto, String saveTitle);
     List<DiaryJson> userDataFindAll(Member dto);
 }
