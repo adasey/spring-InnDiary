@@ -12,6 +12,7 @@ import lombok.ToString;
 @Builder
 public class User {
     private Long id;
+    private String Uid;
     private String name;
     private String email;
     private int company;

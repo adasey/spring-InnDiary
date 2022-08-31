@@ -1,13 +1,13 @@
 package com.diary.inn.InnDiary.work.domain.bef;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
-public class Slot {
+@NoArgsConstructor
+@AllArgsConstructor
+public class DiarySlot {
     private String title;
     private String mod_date;
     private String diary_list;

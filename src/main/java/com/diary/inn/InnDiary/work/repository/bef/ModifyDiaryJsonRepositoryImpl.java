@@ -1,7 +1,5 @@
 package com.diary.inn.InnDiary.work.repository.bef;
 
-import com.diary.inn.InnDiary.login.entity.UserEntity;
-import com.diary.inn.InnDiary.work.domain.bef.DBSlot;
 import com.diary.inn.InnDiary.work.entity.bef.DiaryJsonEntity;
 import com.diary.inn.InnDiary.work.entity.bef.QDiaryJsonEntity;
 import com.google.firebase.database.*;

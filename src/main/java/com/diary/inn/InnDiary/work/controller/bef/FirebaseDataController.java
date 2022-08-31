@@ -2,7 +2,6 @@ package com.diary.inn.InnDiary.work.controller.bef;
 
 import com.diary.inn.InnDiary.login.entity.UserEntity;
 import com.diary.inn.InnDiary.login.repository.UserRepository;
-import com.diary.inn.InnDiary.work.domain.bef.DataSlot;
 import com.diary.inn.InnDiary.work.repository.bef.FirebaseJsonRepository;
 import com.diary.inn.InnDiary.work.repository.bef.ModifyDiaryJsonRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +26,14 @@ public class FirebaseDataController {
         Optional<UserEntity> find = userRepository.findByEmail("lmo9903@gmail.com");
 
         if (find.isPresent()) {
-            DataSlot value = firebaseJsonRepository.getDataByUid(find.get().getUid()).getValue(DataSlot.class);
-            firebaseJsonRepository.getDataByUid(find.get().getUid());
+            firebaseJsonRepository.setDataByUid(firebaseJsonRepository.getDataByUid(find.get().getUid()));
             log.info("data of finding by uid, value of slot1 : {}", firebaseJsonRepository.getDataByUid(find.get().getUid()).child("diary_slot").child("slot1"));
             log.info("data of finding by uid, value of slot1's value : {}", firebaseJsonRepository.getDiaryOrTodoListOfData("diary_slot", "slot1"));
+//            log.info("data of finding by uid, value of slot1's value : {}", firebaseJsonRepository.getDiaryOrTodoListOfData("diary_slot", "slot1").getDiary_list());
+//            log.info("data of finding by uid, value of slot1's value : {}", firebaseJsonRepository.getDiaryOrTodoListOfData("diary_slot", "slot1").getTitle());
+//            log.info("data of finding by uid, value of slot1's value : {}", firebaseJsonRepository.getDiaryOrTodoListOfData("diary_slot", "slot1").getMod_date());
 
-            return (String) firebaseJsonRepository.getDataByUid(find.get().getUid()).getValue();
+            return "";
         }
         else {
             return "None";

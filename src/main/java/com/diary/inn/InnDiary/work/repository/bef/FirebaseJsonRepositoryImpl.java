@@ -1,14 +1,11 @@
 package com.diary.inn.InnDiary.work.repository.bef;
 
-import com.diary.inn.InnDiary.work.domain.bef.Slot;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.diary.inn.InnDiary.work.domain.bef.DiarySlot;
+import com.diary.inn.InnDiary.work.domain.bef.TodoSlot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.database.DataSnapshot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-
-import java.util.HashMap;
 
 @Repository
 @Slf4j
@@ -17,7 +14,6 @@ public class FirebaseJsonRepositoryImpl implements FirebaseJsonRepository {
 
     private DataSnapshot firebase;
     private DataSnapshot dataByUid;
-    private String refactor;
 
     @Override
     public void setInitFirebaseJson(DataSnapshot firebase) {
@@ -34,19 +30,18 @@ public class FirebaseJsonRepositoryImpl implements FirebaseJsonRepository {
         return firebase.child(uid);
     }
 
-    // for test
     @Override
-    public Object getValueChoose(Object val) {
-        if (val.toString().equals("firebase")) {
-            return firebase;
+    public Object getDiaryOrTodoListOfData(String which, String slotNum) {
+        try {
+            if (which.equals("diary_slot")) {
+                return dataByUid.child(which).child(slotNum).getValue(DiarySlot.class);
+            }
+            else {
+                return dataByUid.child(which).child(slotNum).getValue(TodoSlot.class);
+            }
+        } catch (IllegalArgumentException e) {
+            log.info("wrong value, can't find data", e);
+            return DiarySlot.builder().build();
         }
-        else {
-            return refactor;
-        }
-    }
-
-    @Override
-    public Slot getDiaryOrTodoListOfData(String which, String slotNum) {
-        return dataByUid.child(which).child(slotNum).getValue(Slot.class);
     }
 }
