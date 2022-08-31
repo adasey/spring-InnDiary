@@ -1,6 +1,6 @@
 package com.diary.inn.InnDiary.config;
 
-import com.diary.inn.InnDiary.login.LoginSessionArgumentResolver;
+import com.diary.inn.InnDiary.login.session.LoginSessionArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

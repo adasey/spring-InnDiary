@@ -1,0 +1,15 @@
+package com.diary.inn.InnDiary.work.domain.fro;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class DiaryInfo {
+    private Long seq;
+    private String title;
+    private String date;
+    private int weather;
+    private int status;
+    private String content;
+}
