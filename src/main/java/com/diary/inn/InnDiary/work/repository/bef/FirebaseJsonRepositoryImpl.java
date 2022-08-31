@@ -1,5 +1,6 @@
 package com.diary.inn.InnDiary.work.repository.bef;
 
+import com.diary.inn.InnDiary.work.domain.bef.Slot;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,8 +15,8 @@ import java.util.HashMap;
 public class FirebaseJsonRepositoryImpl implements FirebaseJsonRepository {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private HashMap<String, Object> fbDB;
     private DataSnapshot firebase;
+    private DataSnapshot dataByUid;
     private String refactor;
 
     @Override
@@ -24,13 +25,13 @@ public class FirebaseJsonRepositoryImpl implements FirebaseJsonRepository {
     }
 
     @Override
-    public void setFirebaseDB(HashMap<String, Object> value) {
-        fbDB = value;
+    public void setDataByUid(DataSnapshot fb) {
+        this.dataByUid = fb;
     }
 
     @Override
-    public HashMap<String, Object> getFirebaseDB() {
-        return fbDB;
+    public DataSnapshot getDataByUid(String uid) {
+        return firebase.child(uid);
     }
 
     // for test
@@ -45,13 +46,7 @@ public class FirebaseJsonRepositoryImpl implements FirebaseJsonRepository {
     }
 
     @Override
-    public void processingFirebaseJsonToMemoryDB() {
-
-    }
-
-    @Override
-    public DataSnapshot getDataByUid(String uid) {
-        log.info("value check of find : {}", firebase.child(uid));
-        return firebase.child(uid);
+    public Slot getDiaryOrTodoListOfData(String which, String slotNum) {
+        return dataByUid.child(which).child(slotNum).getValue(Slot.class);
     }
 }

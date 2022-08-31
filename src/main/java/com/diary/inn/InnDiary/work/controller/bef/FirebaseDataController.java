@@ -21,15 +21,16 @@ public class FirebaseDataController {
     private final FirebaseJsonRepository firebaseJsonRepository;
     private final UserRepository userRepository;
 
+    // just test shortcut
     @GetMapping("/load")
     public String getFirebaseData() {
         Optional<UserEntity> find = userRepository.findByEmail("lmo9903@gmail.com");
 
         if (find.isPresent()) {
             DataSlot value = firebaseJsonRepository.getDataByUid(find.get().getUid()).getValue(DataSlot.class);
-            log.info("data of finding by uid : {}", firebaseJsonRepository.getDataByUid(find.get().getUid()));
-            log.info("data of finding by value of diary : {}", value.getDiary_slot());
-            log.info("data of finding by value of todo : {}", value.getTodo_slot());
+            firebaseJsonRepository.getDataByUid(find.get().getUid());
+            log.info("data of finding by uid, value of slot1 : {}", firebaseJsonRepository.getDataByUid(find.get().getUid()).child("diary_slot").child("slot1"));
+            log.info("data of finding by uid, value of slot1's value : {}", firebaseJsonRepository.getDiaryOrTodoListOfData("diary_slot", "slot1"));
 
             return (String) firebaseJsonRepository.getDataByUid(find.get().getUid()).getValue();
         }
