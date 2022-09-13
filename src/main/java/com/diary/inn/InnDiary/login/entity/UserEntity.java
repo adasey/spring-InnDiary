@@ -42,6 +42,13 @@ public class UserEntity extends BaseEntity {
         this.role = role;
     }
 
+    public UserEntity(Long id, String name, String email, String uid) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.uid = uid;
+    }
+
     public UserEntity update(String name) {
         this.name = name;
         return this;
