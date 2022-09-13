@@ -40,6 +40,16 @@ public class SearchTodoRepositoryImpl extends QuerydslRepositorySupport implemen
         return jpqlQuery.fetch();
     }
 
+    @Override
+    public TodoEntity findByDate(String date) {
+        return null;
+    }
+
+    @Override
+    public List<TodoEntity> findByFromDateToDate(String date) {
+        return null;
+    }
+
     @Transactional
     @Override
     public void updateTodo(TodoEntity te) {

@@ -11,5 +11,5 @@ public interface SlotService {
     List<Slot> findWhichSlot(User user, String which);
     List<Slot> findAllSlotByUser(User user);
     void updateBySlotNum(Slot slot);
-    void deleteSlotWithDiaryNTodo(Slot slot);
+    void deleteSlot(Slot slot);
 }

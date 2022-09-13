@@ -44,6 +44,16 @@ public class SearchDiaryRepositoryImpl extends QuerydslRepositorySupport impleme
         return jpqlQuery.fetch();
     }
 
+    @Override
+    public DiaryEntity findByDate(String date) {
+        return null;
+    }
+
+    @Override
+    public List<DiaryEntity> findByFromDateToDate(String date) {
+        return null;
+    }
+
     @Transactional
     @Override
     public void updateDiary(DiaryEntity de) {

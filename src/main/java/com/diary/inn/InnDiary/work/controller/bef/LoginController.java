@@ -57,40 +57,72 @@ public class LoginController {
         HttpSession session = request.getSession();
         session.removeAttribute("failToLogin");
 
+        startLoginWebSetting(sessionUser);
+
         return "redirect:/home";
     }
 
-    private void startLoginWebSetting(SessionUser sessionUser) {
-        User foundUser = userService.findUserByEmail(sessionUser.getEmail());
+    private void startLoginWebSetting(SessionUser sUser) {
+        User foundUser = userService.findUserByEmail(sUser.getEmail());
 
-        firebaseJsonRepository.setValueByUid(sessionUser.getUid());
+        firebaseJsonRepository.setValueByUid(sUser.getUid());
         List<Slot> allSlotByUser = slotService.findAllSlotByUser(foundUser);
+
+//        slotDeleteIfExist(allSlotByUser);
+        if (!isUserHasSlot(allSlotByUser)) {
+            userBaseSlotSetting(foundUser);
+        }
     }
 
-    private void userBaseSlotSetting(List<Slot> asData) {
+    private void slotDeleteIfExist(List<Slot> asData) {
         if (isUserHasSlot(asData)) {
             for (Slot slot : asData) {
-                slotService.deleteSlotWithDiaryNTodo(slot);
+                slotService.deleteSlot(slot);
+
+                diaryService.deleteDiaryBySlot(slot.getSeq());
+                todoService.deleteTodoBySlot(slot.getSeq());
             }
         }
+    }
 
-        List<Slot> diaryAllSlot = diaryFirebaseJsonService.processAllSlotFromFirebaseData(foundUser);
-        List<Slot> todoAllSlot = todoFirebaseJsonService.processAllSlotFromFirebaseData(foundUser);
+    private boolean isUserHasSlot(List<Slot> slots) {
+        for (Slot s : slots) {
+            if (isExistVal(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-        for (Slot s : diaryAllSlot) {
+    private boolean isExistVal(Slot s) {
+        return s != null;
+    }
+
+    private void userBaseSlotSetting(User found) {
+        slotDataInsertAll(found);
+        callFirebaseDiaryNTodoNSaveAll(found);
+    }
+
+    private void slotDataInsertAll(User found) {
+        List<Slot> dSlot = diaryFirebaseJsonService.processAllSlotFromFirebaseData(found);
+        List<Slot> tSlot = todoFirebaseJsonService.processAllSlotFromFirebaseData(found);
+
+        for (Slot s : dSlot) {
             slotService.createSlot(s);
         }
 
-        for (Slot s : todoAllSlot) {
+        for (Slot s : tSlot) {
             slotService.createSlot(s);
         }
+    }
 
+    private void callFirebaseDiaryNTodoNSaveAll(User found) {
         Map<Integer, List<DiaryMeta>> diaryWithSlot = diaryFirebaseJsonService.getDiaryWithSlot();
         Map<Integer, List<TodoMeta>> todoWithSlot = todoFirebaseJsonService.getTodoWithSlot();
 
         for (int i = 1; i <= 3; i++) {
             if (diaryWithSlot.get(i) != null) {
-                Slot ds = slotService.findWhichSlotByNum(foundUser, "diary", i);
+                Slot ds = slotService.findWhichSlotByNum(found, "diary", i);
                 for (DiaryMeta dm : diaryWithSlot.get(i)) {
                     Diary d = Diary.builder()
                             .diarySeq(dm.getSeq())
@@ -109,7 +141,7 @@ public class LoginController {
 
         for (int i = 1; i <= 3; i++) {
             if (todoWithSlot.get(i) != null) {
-                Slot ts = slotService.findWhichSlotByNum(foundUser, "todo", i);
+                Slot ts = slotService.findWhichSlotByNum(found, "todo", i);
                 for (TodoMeta tm : todoWithSlot.get(i)) {
                     Todo t = Todo.builder()
                             .todoSeq(tm.getSeq())
@@ -125,10 +157,6 @@ public class LoginController {
         }
     }
 
-    private void slotDeleteIfExist() {
-        
-    }
-
     private LocalDate stringToDate(String t) {
         LocalDate time = null;
 
@@ -140,18 +168,5 @@ public class LoginController {
         }
 
         return time;
-    }
-
-    private boolean isUserHasSlot(List<Slot> slots) {
-        for (Slot s : slots) {
-            if (isExistVal(s)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isExistVal(Slot s) {
-        return s != null;
     }
 }

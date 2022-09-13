@@ -96,13 +96,7 @@ public class SlotServiceImpl implements SlotService, SlotConversionService {
     }
 
     @Override
-    public void deleteSlotWithDiaryNTodo(Slot slot) {
-        deleteSlotForeignTable(slot.getSeq());
+    public void deleteSlot(Slot slot) {
         modifySlotRepository.deleteBySlot(dtoToEntity(slot));
-    }
-
-    private void deleteSlotForeignTable(Long seq) {
-        diaryService.deleteDiaryBySlot(seq);
-        todoService.deleteTodoBySlot(seq);
     }
 }
