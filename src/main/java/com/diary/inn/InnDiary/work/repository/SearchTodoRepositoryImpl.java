@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
 import java.util.List;
 
 @Qualifier("SearchTodoRepositoryImpl")
@@ -41,13 +42,20 @@ public class SearchTodoRepositoryImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public TodoEntity findByDate(String date) {
-        return null;
+    public List<TodoEntity> findByMonthDate(LocalDate date) {
+        LocalDate sDate = LocalDate.of(date.getYear(), date.getMonth(), 1);
+        LocalDate eDate = LocalDate.of(date.getYear(), date.getMonth(), date.lengthOfMonth());
+
+        JPQLQuery<TodoEntity> jpqlQuery = jpaQueryBuilder();
+        jpqlQuery.where(todoEntity.date.loe(eDate).and(todoEntity.date.goe(sDate)));
+        return jpqlQuery.fetch();
     }
 
     @Override
-    public List<TodoEntity> findByFromDateToDate(String date) {
-        return null;
+    public List<TodoEntity> findByBetweenMonthDate(LocalDate startDate, LocalDate endDate) {
+        JPQLQuery<TodoEntity> jpqlQuery = jpaQueryBuilder();
+        jpqlQuery.where(todoEntity.date.loe(startDate).and(todoEntity.date.goe(endDate)));
+        return jpqlQuery.fetch();
     }
 
     @Transactional
@@ -63,7 +71,6 @@ public class SearchTodoRepositoryImpl extends QuerydslRepositorySupport implemen
                 .execute();
     }
 
-    @Transactional
     @Override
     public void deleteBySlot(Long seq) {
         JPAQueryFactory jpaQueryFactory = jpaQueryFactoryGenerator();

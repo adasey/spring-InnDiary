@@ -7,6 +7,7 @@ import com.diary.inn.InnDiary.work.entity.QSlotEntity;
 import com.diary.inn.InnDiary.work.entity.SlotEntity;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
@@ -15,10 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
 import java.util.List;
 
 @Qualifier("SearchDiaryRepositoryImpl")
 @Repository
+@Slf4j
 public class SearchDiaryRepositoryImpl extends QuerydslRepositorySupport implements SearchDiaryRepository {
     @PersistenceContext
     private EntityManager entityManager;
@@ -45,20 +48,26 @@ public class SearchDiaryRepositoryImpl extends QuerydslRepositorySupport impleme
     }
 
     @Override
-    public DiaryEntity findByDate(String date) {
-        return null;
+    public List<DiaryEntity> findByMonthDate(LocalDate date) {
+        LocalDate sDate = LocalDate.of(date.getYear(), date.getMonth(), 1);
+        LocalDate eDate = LocalDate.of(date.getYear(), date.getMonth(), date.lengthOfMonth());
+
+        JPQLQuery<DiaryEntity> jpqlQuery = jpaQueryBuilder();
+        jpqlQuery.where(diaryEntity.date.goe(sDate).and(diaryEntity.date.loe(eDate)));
+        return jpqlQuery.fetch();
     }
 
     @Override
-    public List<DiaryEntity> findByFromDateToDate(String date) {
-        return null;
+    public List<DiaryEntity> findByBetweenMonthDate(LocalDate startDate, LocalDate endDate) {
+        JPQLQuery<DiaryEntity> jpqlQuery = jpaQueryBuilder();
+        jpqlQuery.where(diaryEntity.date.goe(startDate).and(diaryEntity.date.loe(endDate)));
+        return jpqlQuery.fetch();
     }
 
     @Transactional
     @Override
     public void updateDiary(DiaryEntity de) {
         JPAQueryFactory jpaQueryFactory = jpaQueryFactoryGenerator();
-
 
         jpaQueryFactory.update(diaryEntity)
                 .set(diaryEntity.title, de.getTitle())
@@ -70,8 +79,6 @@ public class SearchDiaryRepositoryImpl extends QuerydslRepositorySupport impleme
                 .execute();
     }
 
-
-    @Transactional
     @Override
     public void deleteBySlot(Long seq) {
         JPAQueryFactory jpaQueryFactory = jpaQueryFactoryGenerator();
