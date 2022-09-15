@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
+
 @RequiredArgsConstructor
 @RequestMapping("/home")
 @Controller
@@ -14,17 +16,7 @@ public class HomeController {
 
     @RequestMapping
     public String goHome(Model model, @LoginSession SessionUser sessionUser) {
-//        String email = null;
-//        int company = 0;
-//
-//        if (sessionUser != null) {
-//            email = sessionUser.getEmail();
-//            company = sessionUser.getCompany();
-//        }
-//        else {
-//            return "redirect:/logout";
-//        }
-
+        model.addAttribute("sUser", sessionUser);
         return "index";
     }
 }
