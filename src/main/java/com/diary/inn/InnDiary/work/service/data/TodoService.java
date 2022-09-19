@@ -8,12 +8,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface TodoService {
+    void setWantSlot(Slot slot);
+    Slot getNowSlot();
+    boolean isSlotSetting();
+
     Todo createTodo(Todo todo);
-    Todo findTodoBySlotNSeq(Slot slot, Long todoSeq);
-    List<Todo> findAllTodoBySlot(Slot slot);
+    Todo findTodoBySeq(Long todoSeq);
+    List<Todo> findAllTodoBySlot();
     List<Todo> findMonthTodo(LocalDate date);
-    Map<LocalDate, List<Todo>> findSixMonthTodo(LocalDate date);
-    Map<LocalDate, List<Todo>> findBetweenMonthTodo(LocalDate startDate, LocalDate endDate);
+    List<Todo> findSixMonthTodo(LocalDate date);
+    List<Todo> findBetweenMonthTodo(LocalDate startDate, LocalDate endDate);
     void updateTodo(Todo todo);
     void deleteTodo(Todo todo);
     void deleteTodoBySlot(Long slotSeq);

@@ -44,6 +44,13 @@ public class ModifySlotRepositoryImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
+    public List<SlotEntity> findWhichSlotByUid(String uid, String which) {
+        JPQLQuery<SlotEntity> jpaQuery = jpaQueryBuilder();
+        jpaQuery.where(slotEntity.user.uid.eq(uid).and(slotEntity.which.eq(which)));
+        return jpaQuery.fetch();
+    }
+
+    @Override
     public List<SlotEntity> findAllByUid(String uid) {
         JPQLQuery<SlotEntity> jpaQuery = jpaQueryBuilder();
         jpaQuery.where(slotEntity.user.uid.eq(uid));

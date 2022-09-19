@@ -5,16 +5,12 @@ import com.diary.inn.InnDiary.login.entity.UserEntity;
 import com.diary.inn.InnDiary.work.domain.Slot;
 import com.diary.inn.InnDiary.work.entity.SlotEntity;
 import com.diary.inn.InnDiary.work.repository.ModifySlotRepository;
-import com.diary.inn.InnDiary.work.repository.SearchTodoRepository;
 import com.diary.inn.InnDiary.work.repository.SlotRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +18,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class SlotServiceImpl implements SlotService, SlotConversionService {
+public class SlotServiceImpl implements SlotService, SlotConvertService {
     private final SlotRepository slotRepository;
     private final ModifySlotRepository modifySlotRepository;
-
-    private final DiaryService diaryService;
-    private final TodoService todoService;
 
     @Override
     public Slot entityToDto(SlotEntity se) {
@@ -71,6 +64,11 @@ public class SlotServiceImpl implements SlotService, SlotConversionService {
     @Override
     public List<Slot> findWhichSlot(User user, String which) {
         return searchSlotAll(modifySlotRepository.findWhichSlotByUser(user, which));
+    }
+
+    @Override
+    public List<Slot> findWhichSlotByUid(String uid, String which) {
+        return searchSlotAll(modifySlotRepository.findWhichSlotByUid(uid, which));
     }
 
     @Override

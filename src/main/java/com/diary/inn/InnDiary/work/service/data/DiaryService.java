@@ -8,12 +8,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface DiaryService {
+    void setWantSlot(Slot slot);
+    Slot getNowSlot();
+    boolean isSlotSetting();
+
     Diary createDiary(Diary diary);
-    Diary findDiaryBySlotNSeq(Slot slot, Long diarySeq);
-    List<Diary> findAllDiaryBySlot(Slot slot);
+    Diary findDiaryBySeq(Long diarySeq);
+    List<Diary> findAllDiaryBySlot();
     List<Diary> findMonthDiary(LocalDate date);
-    Map<LocalDate, List<Diary>> findSixMonthDiary(LocalDate date);
-    Map<LocalDate, List<Diary>> findBetweenMonthDiary(LocalDate startDate, LocalDate endDate);
+    List<Diary> findSixMonthDiary(LocalDate date);
+    List<Diary> findBetweenMonthDiary(LocalDate startDate, LocalDate endDate);
     void updateDiary(Diary diary);
     void deleteDiary(Diary diary);
     void deleteDiaryBySlot(Long slotSeq);

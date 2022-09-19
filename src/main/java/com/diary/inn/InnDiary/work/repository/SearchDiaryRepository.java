@@ -7,8 +7,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface SearchDiaryRepository {
-    DiaryEntity findBySlotNSeq(SlotEntity se, Long seq);
-    List<DiaryEntity> findAllBySlot(SlotEntity se);
+    void setSlot(SlotEntity se);
+    SlotEntity getSlot();
+    boolean isSlotSetting();
+
+    DiaryEntity findBySeq(Long seq);
+    List<DiaryEntity> findAllBySlot();
     List<DiaryEntity> findByMonthDate(LocalDate date);
     List<DiaryEntity> findByBetweenMonthDate(LocalDate startDate, LocalDate endDate);
     void updateDiary(DiaryEntity de);

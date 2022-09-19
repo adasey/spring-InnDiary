@@ -1,7 +1,7 @@
 package com.diary.inn.InnDiary.config;
 
 import com.diary.inn.InnDiary.work.repository.firebase.FirebaseJsonRepository;
-import com.diary.inn.InnDiary.work.service.json.DiaryFirebaseJsonService;
+import com.diary.inn.InnDiary.work.service.firebase.FirebaseService;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -18,7 +18,7 @@ import java.io.FileNotFoundException;
 @RequiredArgsConstructor
 @Slf4j
 public class FirebaseConfig {
-    private final FirebaseJsonRepository firebaseJsonRepository;
+    private final FirebaseService firebaseService;
 
     @PostConstruct
     public void init() {
@@ -52,7 +52,7 @@ public class FirebaseConfig {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataSnapshot document = dataSnapshot.child("users").child("uid");
                 System.out.println("result value = " + document.getValue());
-                firebaseJsonRepository.setFirebaseData(document);
+                firebaseService.setDataSnap(document);
             }
 
             @Override
