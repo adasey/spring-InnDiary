@@ -65,8 +65,8 @@ public class SearchTodoRepositoryImpl extends QuerydslRepositorySupport implemen
 
         JPQLQuery<TodoEntity> jpqlQuery = jpaQueryBuilder();
         jpqlQuery.where(todoEntity.slot.seq.eq(sEntity.getSeq())
-                .and(todoEntity.date.loe(eDate)
-                        .and(todoEntity.date.goe(sDate))));
+                .and(todoEntity.date.goe(sDate)
+                        .and(todoEntity.date.loe(eDate))));
         return jpqlQuery.fetch();
     }
 
@@ -74,8 +74,8 @@ public class SearchTodoRepositoryImpl extends QuerydslRepositorySupport implemen
     public List<TodoEntity> findByBetweenMonthDate(LocalDate startDate, LocalDate endDate) {
         JPQLQuery<TodoEntity> jpqlQuery = jpaQueryBuilder();
         jpqlQuery.where(todoEntity.slot.seq.eq(sEntity.getSeq())
-                .and(todoEntity.date.loe(startDate)
-                        .and(todoEntity.date.goe(endDate))));
+                .and(todoEntity.date.goe(startDate)
+                        .and(todoEntity.date.loe(endDate))));
         return jpqlQuery.fetch();
     }
 

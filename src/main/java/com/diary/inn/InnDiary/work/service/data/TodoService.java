@@ -16,7 +16,6 @@ public interface TodoService {
     Todo findTodoBySeq(Long todoSeq);
     List<Todo> findAllTodoBySlot();
     List<Todo> findMonthTodo(LocalDate date);
-    List<Todo> findSixMonthTodo(LocalDate date);
     List<Todo> findBetweenMonthTodo(LocalDate startDate, LocalDate endDate);
     void updateTodo(Todo todo);
     void deleteTodo(Todo todo);

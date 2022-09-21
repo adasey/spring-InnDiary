@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class SlotController {
 
 //    @ResponseBody
     @GetMapping("/diaries/call")
-    private String callDiarySlot(@LoginSession SessionUser sUser, @RequestParam Integer slotNum) {
+    private String callDiarySlot(@LoginSession SessionUser sUser, @RequestParam Integer slotNum, HttpSession session) {
         User user = userService.findUserByEmail(sUser.getEmail());
         firebaseService.processDiary(user);
 
@@ -59,13 +60,14 @@ public class SlotController {
 
         Slot dSlot = slotService.findWhichSlotByNum(user, "diary", slotNum);
         diaryService.setWantSlot(dSlot);
+        session.setAttribute("diarySlot", slotNum);
 
         return "redirect:/slots";
     }
 
 //    @ResponseBody
     @GetMapping("/todos/call")
-    private String callTodoSlot(@LoginSession SessionUser sUser, @RequestParam Integer slotNum) {
+    private String callTodoSlot(@LoginSession SessionUser sUser, @RequestParam Integer slotNum, HttpSession session) {
         User user = userService.findUserByEmail(sUser.getEmail());
         firebaseService.processTodo(user);
 
@@ -73,6 +75,7 @@ public class SlotController {
 
         Slot tSlot = slotService.findWhichSlotByNum(user, "todo", slotNum);
         todoService.setWantSlot(tSlot);
+        session.setAttribute("todoSlot", slotNum);
 
         return "redirect:/slots";
     }

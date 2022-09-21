@@ -51,7 +51,6 @@ public class FirebaseConfig {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataSnapshot document = dataSnapshot.child("users").child("uid");
-                System.out.println("result value = " + document.getValue());
                 firebaseService.setDataSnap(document);
             }
 

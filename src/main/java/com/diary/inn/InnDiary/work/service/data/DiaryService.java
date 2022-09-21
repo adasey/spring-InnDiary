@@ -16,7 +16,6 @@ public interface DiaryService {
     Diary findDiaryBySeq(Long diarySeq);
     List<Diary> findAllDiaryBySlot();
     List<Diary> findMonthDiary(LocalDate date);
-    List<Diary> findSixMonthDiary(LocalDate date);
     List<Diary> findBetweenMonthDiary(LocalDate startDate, LocalDate endDate);
     void updateDiary(Diary diary);
     void deleteDiary(Diary diary);

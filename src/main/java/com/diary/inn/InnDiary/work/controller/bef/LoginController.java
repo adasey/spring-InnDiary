@@ -38,16 +38,21 @@ public class LoginController {
     @RequestMapping("/oauth")
     public String toLogin(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        session.setAttribute("failToLogin", true);
+        if (session.getAttribute("loginSuccess") != null) {
+            session.removeAttribute("loginSuccess");
+            session.setAttribute("failToLogin", false);
+        }
+        else {
+            session.setAttribute("failToLogin", true);
+        }
         return "oauth/login";
     }
 
     @RequestMapping("/oauth/login/success")
     public String successLogin(@LoginSession SessionUser sessionUser, HttpServletRequest request) {
-        log.info("value check after login : {}", sessionUser.getUid());
-
         HttpSession session = request.getSession();
         session.removeAttribute("failToLogin");
+        session.setAttribute("loginSuccess", true);
 
         startLoginWebSetting(sessionUser);
 
