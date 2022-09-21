@@ -23,21 +23,38 @@ public class SearchTodoRepositoryImpl extends QuerydslRepositorySupport implemen
     private final QTodoEntity todoEntity = QTodoEntity.todoEntity;
     private final QSlotEntity slotEntity = QSlotEntity.slotEntity;
 
+    private SlotEntity sEntity = null;
+
     public SearchTodoRepositoryImpl() {
         super(TodoEntity.class);
     }
 
     @Override
-    public TodoEntity findBySlotNSeq(SlotEntity se, Long seq) {
+    public void setSlot(SlotEntity se) {
+        sEntity = se;
+    }
+
+    @Override
+    public SlotEntity getSlot() {
+        return sEntity;
+    }
+
+    @Override
+    public boolean isSlotSetting() {
+        return sEntity != null;
+    }
+
+    @Override
+    public TodoEntity findBySeq(Long seq) {
         JPQLQuery<TodoEntity> jpqlQuery = jpaQueryBuilder();
-        jpqlQuery.where(todoEntity.slot.eq(se).and(todoEntity.todoSeq.eq(seq)));
+        jpqlQuery.where(todoEntity.slot.eq(sEntity).and(todoEntity.todoSeq.eq(seq)));
         return jpqlQuery.fetchOne();
     }
 
     @Override
-    public List<TodoEntity> findAllBySlot(SlotEntity se) {
+    public List<TodoEntity> findAllBySlot() {
         JPQLQuery<TodoEntity> jpqlQuery = jpaQueryBuilder();
-        jpqlQuery.where(todoEntity.slot.eq(se));
+        jpqlQuery.where(todoEntity.slot.eq(sEntity));
         return jpqlQuery.fetch();
     }
 
@@ -47,14 +64,18 @@ public class SearchTodoRepositoryImpl extends QuerydslRepositorySupport implemen
         LocalDate eDate = LocalDate.of(date.getYear(), date.getMonth(), date.lengthOfMonth());
 
         JPQLQuery<TodoEntity> jpqlQuery = jpaQueryBuilder();
-        jpqlQuery.where(todoEntity.date.loe(eDate).and(todoEntity.date.goe(sDate)));
+        jpqlQuery.where(todoEntity.slot.seq.eq(sEntity.getSeq())
+                .and(todoEntity.date.goe(sDate)
+                        .and(todoEntity.date.loe(eDate))));
         return jpqlQuery.fetch();
     }
 
     @Override
     public List<TodoEntity> findByBetweenMonthDate(LocalDate startDate, LocalDate endDate) {
         JPQLQuery<TodoEntity> jpqlQuery = jpaQueryBuilder();
-        jpqlQuery.where(todoEntity.date.loe(startDate).and(todoEntity.date.goe(endDate)));
+        jpqlQuery.where(todoEntity.slot.seq.eq(sEntity.getSeq())
+                .and(todoEntity.date.goe(startDate)
+                        .and(todoEntity.date.loe(endDate))));
         return jpqlQuery.fetch();
     }
 
@@ -71,6 +92,7 @@ public class SearchTodoRepositoryImpl extends QuerydslRepositorySupport implemen
                 .execute();
     }
 
+    @Transactional
     @Override
     public void deleteBySlot(Long seq) {
         JPAQueryFactory jpaQueryFactory = jpaQueryFactoryGenerator();

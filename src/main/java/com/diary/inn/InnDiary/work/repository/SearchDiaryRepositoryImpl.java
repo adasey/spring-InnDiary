@@ -29,21 +29,38 @@ public class SearchDiaryRepositoryImpl extends QuerydslRepositorySupport impleme
     private final QDiaryEntity diaryEntity = QDiaryEntity.diaryEntity;
     private final QSlotEntity slotEntity = QSlotEntity.slotEntity;
 
+    private SlotEntity sEntity = null;
+
     public SearchDiaryRepositoryImpl() {
         super(DiaryEntity.class);
     }
 
     @Override
-    public DiaryEntity findBySlotNSeq(SlotEntity se, Long seq) {
+    public void setSlot(SlotEntity se) {
+        sEntity = se;
+    }
+
+    @Override
+    public SlotEntity getSlot() {
+        return sEntity;
+    }
+
+    @Override
+    public boolean isSlotSetting() {
+        return sEntity != null;
+    }
+
+    @Override
+    public DiaryEntity findBySeq(Long seq) {
         JPQLQuery<DiaryEntity> jpqlQuery = jpaQueryBuilder();
-        jpqlQuery.where(diaryEntity.slot.eq(se).and(diaryEntity.diarySeq.eq(seq)));
+        jpqlQuery.where(diaryEntity.slot.eq(sEntity).and(diaryEntity.diarySeq.eq(seq)));
         return jpqlQuery.fetchOne();
     }
 
     @Override
-    public List<DiaryEntity> findAllBySlot(SlotEntity se) {
+    public List<DiaryEntity> findAllBySlot() {
         JPQLQuery<DiaryEntity> jpqlQuery = jpaQueryBuilder();
-        jpqlQuery.where(diaryEntity.slot.eq(se));
+        jpqlQuery.where(diaryEntity.slot.eq(sEntity));
         return jpqlQuery.fetch();
     }
 
@@ -53,14 +70,18 @@ public class SearchDiaryRepositoryImpl extends QuerydslRepositorySupport impleme
         LocalDate eDate = LocalDate.of(date.getYear(), date.getMonth(), date.lengthOfMonth());
 
         JPQLQuery<DiaryEntity> jpqlQuery = jpaQueryBuilder();
-        jpqlQuery.where(diaryEntity.date.goe(sDate).and(diaryEntity.date.loe(eDate)));
+        jpqlQuery.where(diaryEntity.slot.seq.eq(sEntity.getSeq())
+                .and(diaryEntity.date.goe(sDate)
+                        .and(diaryEntity.date.loe(eDate))));
         return jpqlQuery.fetch();
     }
 
     @Override
     public List<DiaryEntity> findByBetweenMonthDate(LocalDate startDate, LocalDate endDate) {
         JPQLQuery<DiaryEntity> jpqlQuery = jpaQueryBuilder();
-        jpqlQuery.where(diaryEntity.date.goe(startDate).and(diaryEntity.date.loe(endDate)));
+        jpqlQuery.where(diaryEntity.slot.seq.eq(sEntity.getSeq())
+                .and(diaryEntity.date.goe(startDate)
+                        .and(diaryEntity.date.loe(endDate))));
         return jpqlQuery.fetch();
     }
 
@@ -79,6 +100,7 @@ public class SearchDiaryRepositoryImpl extends QuerydslRepositorySupport impleme
                 .execute();
     }
 
+    @Transactional
     @Override
     public void deleteBySlot(Long seq) {
         JPAQueryFactory jpaQueryFactory = jpaQueryFactoryGenerator();

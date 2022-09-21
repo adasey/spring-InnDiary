@@ -7,13 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Slf4j
 class DiaryServiceImplTest {
     @Autowired
-    DiaryConversionService diaryConversionService;
+    DiaryConvertService diaryConvertService;
     @Autowired
     DiaryService diaryService;
 

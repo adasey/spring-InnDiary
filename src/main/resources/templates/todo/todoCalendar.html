@@ -1,0 +1,90 @@
+<!--
+=========================================================
+* Paper Kit Pro - v2.3.1
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/paper-kit-2-pro
+* Copyright 2020 Creative Tim (https://www.creative-tim.com)
+
+Coded by www.creative-tim.com
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="../../static/assets/img/cactus.png" th:href="@{/assets/img/cactus.png}">
+  <link rel="icon" type="image/png" href="../../static/assets/img/cactus.png" th:href="@{/assets/img/cactus.png}">
+  <link href="../../static/assets/js/plugins/fullcalendar/lib/main.css" th:href="@{/assets/js/plugins/fullcalendar/lib/main.css}" rel='stylesheet' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Inn Diary Calender
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <!-- CSS Files -->
+  <link href="../../static/assets/css/bootstrap.min.css" th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet" />
+  <link href="../../static/assets/css/paper-kit.css?v=2.3.1" th:href="@{/assets/css/paper-kit.css?v='2.3.1'}" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="../../static/assets/demo/demo.css" th:href="@{/assets/demo/demo.css}" rel="stylesheet" />
+  <link href="../../static/assets/js/plugins/fullcalendar/lib/main.css" th:href="@{/assets/js/plugins/fullcalendar/lib/main.css}" rel='stylesheet' />
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="../../static/assets/js/plugins/fullcalendar/lib/main.js" th:href="@{/assets/js/plugins/fullcalendar/lib/main.js}"></script>
+
+  <script th:type="module" th:inline="javascript">
+    /*<![CDATA[*/
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        locale: 'ko',
+        displayEventTime: false,
+        googleCalendarApiKey: 'AIzaSyDEhYjnpEwj-DVkNDrdMjZyl6JSLMH2Vzk',
+        eventSources: [
+          {
+            googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+            color: 'red'
+          }, {
+            url: "calendars/values/now"
+          }
+        ]
+      });
+
+      calendar.render();
+    });
+    /*]]>*/
+  </script>
+</head>
+<body class="product-page sidebar-collapse">
+  <!-- Navbar -->
+  <div th:replace="~{header :: header}"></div>
+  <!-- End Navbar -->
+  <div class="page-header page-header-xs" style="background-image: url('../../static/assets/img/sections/clark-street-mercantile.jpg');" th:style="'background-image: url(/assets/img/sections/clark-street-mercantile.jpg);'">
+    <div class="filter"></div>
+  </div>
+  <div class="main">
+    <div class="section">
+      <div class="container">
+        <div class="row title-row">
+          <div class="col-md-2">
+            <h4 class="shop">[[${session.todoSlot}]]번 할일</h4>
+          </div>
+          <div class="col-md-4 ml-auto">
+            <div class="pull-right">
+              <span class="text-muted">달력</span>
+            </div>
+          </div>
+        </div>
+        <div th:id="calendar"></div>
+      </div>
+    </div>
+  </div>
+  <div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

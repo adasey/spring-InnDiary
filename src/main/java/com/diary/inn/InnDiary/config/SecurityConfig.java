@@ -29,7 +29,6 @@ public class SecurityConfig {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/inn/apis/**").permitAll()
                 .antMatchers("/assets/**").permitAll()
                 .antMatchers("/home/**").authenticated()
                 .antMatchers("/", "/oauth/**").permitAll()

@@ -1,0 +1,283 @@
+<!--
+=========================================================
+* Paper Kit Pro - v2.3.1
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/paper-kit-2-pro
+* Copyright 2020 Creative Tim (https://www.creative-tim.com)
+
+Coded by www.creative-tim.com
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="../../static/assets/img/cactus.png" th:href="@{/assets/img/cactus.png}">
+  <link rel="icon" type="image/png" href="../../static/assets/img/cactus.png" th:href="@{/assets/img/cactus.png}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Inn Diary Slot
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <!-- CSS Files -->
+  <link href="../../static/assets/css/bootstrap.min.css" th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet" />
+  <link href="../../static/assets/css/paper-kit.css?v=2.3.1" th:href="@{/assets/css/paper-kit.css?v='2.3.1'}" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="../../static/assets/demo/demo.css" th:href="@{/assets/demo/demo.css}" rel="stylesheet" />
+</head>
+
+<body class="presentation-page sidebar-collapse">
+  <!-- Navbar -->
+  <div th:replace="~{header :: header}"></div>
+  <!-- End Navbar -->
+  <div class="wrapper">
+    <div class="page-header section-dark" style="background-image: url('../../static/assets/img/arches-national-park.jpg')" th:style="'background-image: url(/assets/img/arches-national-park.jpg);'">
+      <div class="content-center">
+        <div class="container">
+          <div class="motto">
+            <h1 class="text-center" style="color:black; font-weight: bolder;">Slot</h1>
+          </div>
+          <h2 class="presentation-subtitle text-center">일정과 할일의 슬롯을 관리하세요</h2>
+        </div>
+      </div>
+      <h6 class="category category-absolute">Designed and coded by creative-tim
+      </h6>
+    </div>
+  </div>
+  <div class="section section-icons">
+    <div class="container-fluid">
+      <form th:action="@{'/slots/update'}" th:method="post">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="icons-nucleo">
+              <i class="first-left-icon nc-icon nc-planet add-animation"></i>
+              <i class="second-left-icon nc-icon nc-touch-id add-animation"></i>
+              <i class="third-left-icon nc-icon nc-lock-circle-open add-animation"></i>
+              <i class="fourth-left-icon nc-icon nc-tap-01 add-animation"></i>
+              <i class="fifth-left-icon nc-icon nc-zoom-split add-animation"></i>
+              <i class="sixth-left-icon nc-icon nc-atom add-animation"></i>
+              <i class="eighth-left-icon nc-icon nc-settings add-animation"></i>
+              <i class="ninth-left-icon nc-icon nc-bulb-63 add-animation"></i>
+            </div>
+          </div>
+          <div class="col-md-6 text-center">
+            <h2 class="title revealOnScroll">슬롯 관리하기</h2>
+            <h5 class="description">
+              각자 Inn Diary 앱에서 클라우드로 저장한 내용을 불러옵니다. 일정과 할일의 불러오기를 통해 해당 슬롯의 정보를 불러올 수 있습니다. 삭제는 유의해서 사용하길 바랍니다.
+            </h5>
+            <br />
+            <h5 class="description">
+              새롭게 저장한 내용이 있는 경우 최신화해주시기 바랍니다.
+            </h5>
+            <br />
+            <a href="slots.html" th:href="@{'/slots'}" class="btn btn-primary btn-round btn-lg " target="_blank">최신화하기</a>
+          </div>
+          <div class="col-md-3">
+            <div class="icons-nucleo">
+              <i class="first-right-icon nc-icon nc-bank add-animation"></i>
+              <i class="second-right-icon nc-icon nc-tag-content add-animation"></i>
+              <i class="third-right-icon nc-icon nc-bell-55 add-animation"></i>
+              <i class="fourth-right-icon nc-icon nc-tv-2 add-animation"></i>
+              <i class="fifth-right-icon nc-icon nc-map-big add-animation"></i>
+              <i class="sixth-right-icon nc-icon nc-badge add-animation"></i>
+              <i class="eighth-right-icon nc-icon nc-trophy add-animation"></i>
+              <i class="ninth-right-icon nc-icon nc-hat-3 add-animation"></i>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="section section-overview">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-8 offset-md-2 text-center">
+          <div class="space-top"></div>
+          <h2 class="title">일정 슬롯</h2>
+        </div>
+        <div class="container">
+          <div class="space-top"></div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="card" data-background="color" data-color="green">
+                <div class="card-body text-center">
+                  <div class="card-icon">
+                    <i class="nc-icon nc-money-coins"></i>
+                  </div>
+                  <h4 class="card-title">슬롯 1</h4>
+                  <p class="card-description" th:if="${diaryCase.get(0) == null}">데이터 없음</p>
+                  <p class="card-description" th:unless="${diaryCase.get(0) == null}">[[${diaryCase.get(0).title}]]</p>
+                </div>
+                <div class="card-footer">
+                  <div th:if="${diaryCase.get(0) != null}">
+                    <a th:href="@{/slots/diaries/call(slotNum = ${diaryCase.get(0).slotNum})}" class="btn btn-light btn-round">불러오기</a>
+                    <a href="delete" class="btn btn-danger btn-round"><i class="fa-solid fa-trash"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card" data-background="color" data-color="blue">
+                <div class="card-body text-center">
+                  <div class="card-icon">
+                    <i class="nc-icon nc-money-coins"></i>
+                  </div>
+                  <h4 class="card-title">슬롯 2</h4>
+                  <p class="card-description" th:if="${diaryCase.get(1) == null}">데이터 없음</p>
+                  <p class="card-description" th:unless="${diaryCase.get(1) == null}">[[${diaryCase.get(1).title}]]</p>
+                </div>
+                <div class="card-footer">
+                  <div th:if="${diaryCase.get(1) != null}">
+                    <a th:href="@{/slots/diaries/call(slotNum = ${diaryCase.get(1).slotNum})}" class="btn btn-light btn-round">불러오기</a>
+                    <a href="delete" class="btn btn-danger btn-round"><i class="fa-solid fa-trash"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card" data-background="color" data-color="purple">
+                <div class="card-body text-center">
+                  <div class="card-icon">
+                    <i class="nc-icon nc-money-coins"></i>
+                  </div>
+                  <h4 class="card-title">슬롯 3</h4>
+                  <p class="card-description" th:if="${diaryCase.get(2) == null}">데이터 없음</p>
+                  <p class="card-description" th:unless="${diaryCase.get(2) == null}">[[${diaryCase.get(2).title}]]</p>
+                </div>
+                <div class="card-footer">
+                  <div th:if="${diaryCase.get(2) != null}">
+                    <a th:href="@{/slots/diaries/call(slotNum = ${diaryCase.get(2).slotNum})}" class="btn btn-light btn-round">불러오기</a>
+                    <a href="delete" class="btn btn-danger btn-round"><i class="fa-solid fa-trash"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section section-sharing section-dark">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-8 offset-md-2 text-center">
+          <div class="space-top"></div>
+          <h2 class="title">할일 슬롯</h2>
+        </div>
+        <div class="container">
+          <div class="space-top"></div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="card" data-background="color" data-color="green">
+                <div class="card-body text-center">
+                  <div class="card-icon">
+                    <i class="nc-icon nc-money-coins"></i>
+                  </div>
+                  <h4 class="card-title">슬롯 1</h4>
+                  <p class="card-description" th:if="${todoCase.get(0) == null}">데이터 없음</p>
+                  <p class="card-description" th:unless="${todoCase.get(0) == null}">[[${todoCase.get(0).title}]]</p>
+                </div>
+                <div class="card-footer">
+                  <div th:if="${todoCase.get(0) != null}">
+                    <a th:href="@{/slots/todos/call(slotNum = ${todoCase.get(0).slotNum})}" class="btn btn-light btn-round">불러오기</a>
+                    <a href="#" class="btn btn-danger btn-round"><i class="fa-solid fa-trash"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card" data-background="color" data-color="blue">
+                <div class="card-body text-center">
+                  <div class="card-icon">
+                    <i class="nc-icon nc-money-coins"></i>
+                  </div>
+                  <h4 class="card-title">슬롯 2</h4>
+                  <p class="card-description" th:if="${todoCase.get(1) == null}">데이터 없음</p>
+                  <p class="card-description" th:unless="${todoCase.get(1) == null}">[[${todoCase.get(1).title}]]</p>
+                </div>
+                <div class="card-footer">
+                  <div th:if="${todoCase.get(1) != null}">
+                    <a th:href="@{/slots/todos/call(slotNum = ${todoCase.get(2).slotNum})}" class="btn btn-light btn-round">불러오기</a>
+                    <a href="#" class="btn btn-danger btn-round"><i class="fa-solid fa-trash"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="card" data-background="color" data-color="purple">
+                <div class="card-body text-center">
+                  <div class="card-icon">
+                    <i class="nc-icon nc-money-coins"></i>
+                  </div>
+                  <h4 class="card-title">슬롯 3</h4>
+                  <p class="card-description" th:if="${todoCase.get(2) == null}">데이터 없음</p>
+                  <p class="card-description" th:unless="${todoCase.get(2) == null}">[[${todoCase.get(2).title}]]</p>
+                </div>
+                <div class="card-footer">
+                  <div th:if="${todoCase.get(2) != null}">
+                    <a th:href="@{/slots/todos/call(slotNum = ${todoCase.get(3).slotNum})}" class="btn btn-light btn-round">불러오기</a>
+                    <a href="#" class="btn btn-danger btn-round"><i class="fa-solid fa-trash"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div th:replace="~{footer :: footer}"></div>
+  
+  <script type="text/javascript">
+    (function() {
+      function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      new IsoGrid(document.querySelector('.isolayer--deco1'), {
+        transform: 'translateX(33vw) translateY(-340px) rotateX(45deg) rotateZ(45deg)',
+        stackItemsAnimation: {
+          properties: function(pos) {
+            return {
+              translateZ: (pos + 1) * 30,
+              rotateZ: getRandomInt(-4, 4)
+            };
+          },
+          options: function(pos, itemstotal) {
+            return {
+              type: dynamics.bezier,
+              duration: 500,
+              points: [{
+                "x": 0,
+                "y": 0,
+                "cp": [{
+                  "x": 0.2,
+                  "y": 1
+                }]
+              }, {
+                "x": 1,
+                "y": 1,
+                "cp": [{
+                  "x": 0.3,
+                  "y": 1
+                }]
+              }],
+              delay: (itemstotal - pos - 1) * 40
+            };
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>

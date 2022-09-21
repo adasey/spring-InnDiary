@@ -14,14 +14,12 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TodoServiceImpl implements TodoService, TodoConversionService {
+public class TodoServiceImpl implements TodoService, TodoConvertService, CommonPerform {
     private final TodoRepository todoRepository;
     private final SearchTodoRepository searchTodoRepository;
 
@@ -54,17 +52,18 @@ public class TodoServiceImpl implements TodoService, TodoConversionService {
     }
 
     @Override
-    public SlotEntity slotToEntity(Slot s) {
-        UserEntity u = new UserEntity(s.getSeq(), s.getUserName(), s.getUserEmail(), s.getUserUid());
+    public void setWantSlot(Slot slot) {
+        searchTodoRepository.setSlot(slotToEntity(slot));
+    }
 
-        return SlotEntity.builder()
-                .seq(s.getSeq())
-                .user(u)
-                .which(s.getWhich())
-                .slotNum(s.getSlotNum())
-                .title(s.getTitle())
-                .modDate(s.getModDate())
-                .build();
+    @Override
+    public Slot getNowSlot() {
+        return slotEntityToDto(searchTodoRepository.getSlot());
+    }
+
+    @Override
+    public boolean isSlotSetting() {
+        return searchTodoRepository.isSlotSetting();
     }
 
     @Override
@@ -73,112 +72,64 @@ public class TodoServiceImpl implements TodoService, TodoConversionService {
     }
 
     @Override
-    public Todo findTodoBySlotNSeq(Slot slot, Long todoSeq) {
-        return entityToDto(searchTodoRepository.findBySlotNSeq(slotToEntity(slot), todoSeq));
+    public Todo findTodoBySeq(Long todoSeq) {
+        if (searchTodoRepository.isSlotSetting()) {
+            return entityToDto(searchTodoRepository.findBySeq(todoSeq));
+        }
+        log.info("please setting slot value before find");
+        return null;
     }
 
     @Override
-    public List<Todo> findAllTodoBySlot(Slot slot) {
-        List<Todo> found = new ArrayList<>();
-        List<TodoEntity> fTodo = searchTodoRepository.findAllBySlot(slotToEntity(slot));
+    public List<Todo> findAllTodoBySlot() {
+        if (searchTodoRepository.isSlotSetting()) {
+            List<Todo> found = new ArrayList<>();
+            List<TodoEntity> fTodo = searchTodoRepository.findAllBySlot();
 
-        for (TodoEntity te : fTodo) {
-            found.add(entityToDto(te));
+            for (TodoEntity te : fTodo) {
+                found.add(entityToDto(te));
+            }
+            return found;
         }
-        return found;
+        log.info("please setting slot value before find");
+        return null;
     }
 
     @Override
     public List<Todo> findMonthTodo(LocalDate date) {
+        if (searchTodoRepository.isSlotSetting()) {
+            List<Todo> result = new ArrayList<>();
+            List<TodoEntity> todoByDate = searchTodoRepository.findByMonthDate(date);
 
-        List<Todo> result = new ArrayList<>();
-        List<TodoEntity> todoByDate = searchTodoRepository.findByMonthDate(date);
-
-        for (TodoEntity te : todoByDate) {
-            result.add(entityToDto(te));
+            for (TodoEntity te : todoByDate) {
+                result.add(entityToDto(te));
+            }
+            return result;
         }
-        return result;
+
+        log.info("please setting slot value before find");
+        return null;
     }
 
     @Override
-    public Map<LocalDate, List<Todo>> findSixMonthTodo(LocalDate date) {
-        Map<LocalDate, List<Todo>> result = new HashMap<>();
-        List<Todo> rTodo = new ArrayList<>();
+    public List<Todo> findBetweenMonthTodo(LocalDate startDate, LocalDate endDate) {
+        if (searchTodoRepository.isSlotSetting()) {
+            List<LocalDate> dates = splitDate(startDate, endDate);
+            List<Todo> result = new ArrayList<>();
 
-        for (int i = -2; i <= 3; i++) {
-            LocalDate tDate = null;
-            if (i <= 0) {
-                tDate = date.minusMonths(-i);
-            }
-            else {
-                tDate = date.plusMonths(i);
-            }
+            for (int i = 0; i < dates.size(); i += 2) {
+                List<TodoEntity> betweenMonthDiary = searchTodoRepository.findByBetweenMonthDate(dates.get(i), dates.get(i + 1));
 
-            List<TodoEntity> findMonthDate = searchTodoRepository.findByMonthDate(tDate);
-
-            for (TodoEntity te : findMonthDate) {
-                rTodo.add(entityToDto(te));
+                for (TodoEntity te : betweenMonthDiary) {
+                    result.add(entityToDto(te));
+                }
             }
 
-            result.put(tDate, rTodo);
-            rTodo.clear();
+            return result;
         }
 
-        return result;
-    }
-
-    @Override
-    public Map<LocalDate, List<Todo>> findBetweenMonthTodo(LocalDate startDate, LocalDate endDate) {
-        List<LocalDate> dates = splitDate(startDate, endDate);
-        Map<LocalDate, List<Todo>> result = new HashMap<>();
-        List<Todo> rt = new ArrayList<>();
-
-        for (int i = 0; i < dates.size(); i += 2) {
-            List<TodoEntity> betweenMonthDiary = searchTodoRepository.findByBetweenMonthDate(dates.get(i), dates.get(i + 1));
-
-            for (TodoEntity te : betweenMonthDiary) {
-                rt.add(entityToDto(te));
-            }
-
-            result.put(dates.get(i), rt);
-            rt.clear();
-        }
-
-        return result;
-    }
-
-    private List<LocalDate> splitDate(LocalDate sDate, LocalDate eDate) {
-        List<LocalDate> result = new ArrayList<>();
-        LocalDate localDate = LocalDate.of(sDate.getYear(), sDate.getMonth(), 1);
-        Period period = Period.between(sDate, eDate);
-
-        result.add(sDate);
-        result.add(LocalDate.of(sDate.getYear(), sDate.getMonth(), sDate.lengthOfMonth()));
-
-        result.addAll(insertSplitMonth(localDate, period));
-
-        result.add(LocalDate.of(eDate.getYear(), eDate.getMonth(), 1));
-        result.add(eDate);
-
-        return result;
-    }
-
-    private List<LocalDate> insertSplitMonth(LocalDate ld, Period p) {
-        List<LocalDate> r = new ArrayList<>();
-
-        if (isMonthMoreThenOne(p)) {
-            for (int i = 1; i < p.getMonths(); i++) {
-                ld = ld.plusMonths(1);
-                r.add(ld);
-                r.add(LocalDate.of(ld.getYear(), ld.getMonth(), ld.lengthOfMonth()));
-            }
-        }
-
-        return r;
-    }
-
-    private boolean isMonthMoreThenOne(Period p) {
-        return p.getMonths() > 0;
+        log.info("please setting slot value before find");
+        return null;
     }
 
     @Override
@@ -194,5 +145,70 @@ public class TodoServiceImpl implements TodoService, TodoConversionService {
     @Override
     public void deleteTodoBySlot(Long slotSeq) {
         searchTodoRepository.deleteBySlot(slotSeq);
+    }
+
+    @Override
+    public SlotEntity slotToEntity(Slot s) {
+        UserEntity u = new UserEntity(s.getSeq(), s.getUserName(), s.getUserEmail(), s.getUserUid());
+
+        return SlotEntity.builder()
+                .seq(s.getSeq())
+                .user(u)
+                .which(s.getWhich())
+                .slotNum(s.getSlotNum())
+                .title(s.getTitle())
+                .modDate(s.getModDate())
+                .build();
+    }
+
+    @Override
+    public Slot slotEntityToDto(SlotEntity se) {
+        return Slot.builder()
+                .seq(se.getSeq())
+                .title(se.getTitle())
+                .slotNum(se.getSlotNum())
+                .modDate(se.getModDate())
+                .userSeq(se.getUser().getId())
+                .userEmail(se.getUser().getEmail())
+                .userName(se.getUser().getName())
+                .userUid(se.getUser().getUid())
+                .build();
+    }
+
+    @Override
+    public List<LocalDate> splitDate(LocalDate sDate, LocalDate eDate) {
+        List<LocalDate> result = new ArrayList<>();
+        LocalDate localDate = LocalDate.of(sDate.getYear(), sDate.getMonth(), 1);
+        Period period = Period.between(sDate, eDate);
+
+        result.add(sDate);
+        result.add(LocalDate.of(sDate.getYear(), sDate.getMonth(), sDate.lengthOfMonth()));
+
+        result.addAll(insertSplitMonth(localDate, period));
+
+        result.add(LocalDate.of(eDate.getYear(), eDate.getMonth(), 1));
+        result.add(eDate);
+
+        return result;
+    }
+
+    @Override
+    public List<LocalDate> insertSplitMonth(LocalDate ld, Period p) {
+        List<LocalDate> r = new ArrayList<>();
+
+        if (isMonthMoreThenOne(p)) {
+            for (int i = 1; i <= p.getMonths(); i++) {
+                ld = ld.plusMonths(1);
+                r.add(ld);
+                r.add(LocalDate.of(ld.getYear(), ld.getMonth(), ld.lengthOfMonth()));
+            }
+        }
+
+        return r;
+    }
+
+    @Override
+    public boolean isMonthMoreThenOne(Period p) {
+        return p.getMonths() > 0;
     }
 }

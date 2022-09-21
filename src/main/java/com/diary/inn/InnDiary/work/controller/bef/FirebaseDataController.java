@@ -2,10 +2,8 @@ package com.diary.inn.InnDiary.work.controller.bef;
 
 import com.diary.inn.InnDiary.login.entity.UserEntity;
 import com.diary.inn.InnDiary.login.repository.UserRepository;
-import com.diary.inn.InnDiary.login.service.UserService;
 import com.diary.inn.InnDiary.work.repository.firebase.FirebaseJsonRepository;
-import com.diary.inn.InnDiary.work.service.json.DiaryFirebaseJsonService;
-import lombok.RequiredArgsConstructor;
+import com.diary.inn.InnDiary.work.repository.firebase.DiaryFirebaseJsonRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +16,12 @@ import java.util.Optional;
 @RestController
 public class FirebaseDataController {
     private final FirebaseJsonRepository firebaseJsonRepository;
-    private final DiaryFirebaseJsonService diaryFirebaseJsonService;
+    private final DiaryFirebaseJsonRepository diaryFirebaseJsonRepository;
     private final UserRepository userRepository;
 
-    private FirebaseDataController(FirebaseJsonRepository firebaseJsonRepository, DiaryFirebaseJsonService diaryFirebaseJsonService, UserRepository userRepository) {
+    private FirebaseDataController(FirebaseJsonRepository firebaseJsonRepository, DiaryFirebaseJsonRepository diaryFirebaseJsonRepository, UserRepository userRepository) {
         this.firebaseJsonRepository = firebaseJsonRepository;
-        this.diaryFirebaseJsonService = diaryFirebaseJsonService;
+        this.diaryFirebaseJsonRepository = diaryFirebaseJsonRepository;
         this.userRepository = userRepository;
     }
 

@@ -5,10 +5,10 @@
 <nav class="navbar navbar-expand-lg fixed-top nav-down navbar-transparent" color-on-scroll="500">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" href="https://localhost:8080/home" th:href="@{/home}" title="Inn Diary" data-placement="bottom" target="_blank">
+            <a class="navbar-brand" href="https://localhost:8080/home" th:href="@{/home}" title="Inn Diary" data-placement="bottom" target="_self">
                 Inn
             </a>
-            <pre class="navbar-brand"> [[${sUser.name}]] 님 </pre>
+            <h5 class="navbar-brand"> [[${sUser.name}]] 님 </h5>
             <a class="navbar-brand" href="index.html" th:href="@{/logout}">로그아웃</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-bar bar1"></span>
@@ -19,40 +19,34 @@
         <div class="collapse navbar-collapse" data-nav-image="./assets/img/blurred-image-1.jpg" data-color="orange">
             <ul class="navbar-nav ml-auto">
                 <li class="dropdown nav-item">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                    <a href="index.html" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
                         저장 슬롯 관리 </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-danger">
-                        <a href="./index.html" th:href="@{/slots}" class="dropdown-item">
-                            모든 슬롯
-                        </a>
-                        <a href="presentation.html" th:href="@{/slots/diaries}" class="dropdown-item">
-                            일기 슬롯
-                        </a>
-                        <a href="https://demos.creative-tim.com/paper-kit-2-pro/docs/1.0/getting-started/introduction.html" th:href="@{/slots/todos}" class="dropdown-item">
-                            할 일 슬롯
+                        <a href="./slot/slots.html"  th:href="@{'/slots'}" class="dropdown-item">
+                            슬롯보기
                         </a>
                     </div>
                 </li>
                 <li class="dropdown nav-item">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                    <a href="index.html" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
                         일기 </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-danger">
-                        <a href="./index.html" th:href="@{/diaries/calender}" class="dropdown-item">
+                        <a href="./index.html" th:href="@{'/diaries/calendars'}" class="dropdown-item">
                             달력형
                         </a>
-                        <a href="./index.html" th:href="@{/diaries/list}" class="dropdown-item">
+                        <a href="./index.html" th:href="@{'/diaries/lists'}" class="dropdown-item">
                             목록형
                         </a>
                     </div>
                 </li>
                 <li class="dropdown nav-item">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                    <a href="index.html" class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
                         할 일 </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-danger">
-                        <a href="./index.html" th:href="@{/todos/calender}" class="dropdown-item">
+                        <a href="./index.html" th:href="@{'/todos/calendars'}" class="dropdown-item">
                             달력형
                         </a>
-                        <a href="./index.html" th:href="@{/todo/list}" class="dropdown-item">
+                        <a href="./index.html" th:href="@{'/todos/lists'}" class="dropdown-item">
                             목록형
                         </a>
                     </div>
