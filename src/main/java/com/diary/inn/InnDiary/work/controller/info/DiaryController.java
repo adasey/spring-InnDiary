@@ -104,23 +104,4 @@ public class DiaryController {
 
         return "diary/diaryDetail";
     }
-
-//    @GetMapping("/calendars/values/fix")
-//    @ResponseBody
-//    private JsonNode callDiarySixMonth(@RequestParam String date) throws JsonProcessingException {
-//        LocalDate localDate = stringToLocalDate(date);
-//        List<Diary> sixMonthDiary = diaryService.findSixMonthDiary(localDate);
-//
-//        return objectMapper.readTree(diaryToDiaryJson(sixMonthDiary).toString());
-//    }
-//
-//    @GetMapping("/calendars/values/range")
-//    @ResponseBody
-//    private JsonNode callDiaryManyMonth(@RequestParam String startDate, @RequestParam String endDate) throws JsonProcessingException {
-//        LocalDate sDate = stringToLocalDate(startDate);
-//        LocalDate eDate = stringToLocalDate(endDate);
-//        List<Diary> betweenMonthDiary = diaryService.findBetweenMonthDiary(sDate, eDate);
-//
-//        return objectMapper.readTree(diaryToDiaryJson(betweenMonthDiary).toString());
-//    }
 }

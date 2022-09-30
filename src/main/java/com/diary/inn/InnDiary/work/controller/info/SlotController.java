@@ -50,7 +50,6 @@ public class SlotController {
         return "redirect:/slots";
     }
 
-//    @ResponseBody
     @GetMapping("/diaries/call")
     private String callDiarySlot(@LoginSession SessionUser sUser, @RequestParam Integer slotNum, HttpSession session) {
         User user = userService.findUserByEmail(sUser.getEmail());
@@ -59,13 +58,12 @@ public class SlotController {
         firebaseService.createDiaryData(user, slotNum);
 
         Slot dSlot = slotService.findWhichSlotByNum(user, "diary", slotNum);
-        diaryService.setWantSlot(dSlot);
         session.setAttribute("diarySlot", slotNum);
+        diaryService.setWantSlot(dSlot);
 
         return "redirect:/slots";
     }
 
-//    @ResponseBody
     @GetMapping("/todos/call")
     private String callTodoSlot(@LoginSession SessionUser sUser, @RequestParam Integer slotNum, HttpSession session) {
         User user = userService.findUserByEmail(sUser.getEmail());
