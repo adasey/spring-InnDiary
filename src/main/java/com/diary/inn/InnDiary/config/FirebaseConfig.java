@@ -1,7 +1,6 @@
 package com.diary.inn.InnDiary.config;
 
-import com.diary.inn.InnDiary.work.repository.firebase.FirebaseJsonRepository;
-import com.diary.inn.InnDiary.work.service.firebase.FirebaseService;
+import com.diary.inn.InnDiary.service.firebase.FirebaseService;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;

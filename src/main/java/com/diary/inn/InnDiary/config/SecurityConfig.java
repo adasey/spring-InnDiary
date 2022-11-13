@@ -1,8 +1,8 @@
 package com.diary.inn.InnDiary.config;
 
-import com.diary.inn.InnDiary.login.handler.OAuth2SuccessHandler;
-import com.diary.inn.InnDiary.login.service.CustomOAuth2UsersService;
-import com.diary.inn.InnDiary.attri.Role;
+import com.diary.inn.InnDiary.utils.login.handler.OAuth2SuccessHandler;
+import com.diary.inn.InnDiary.service.login.CustomOAuth2UsersService;
+import com.diary.inn.InnDiary.utils.attri.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .antMatchers("/assets/**").permitAll()
                 .antMatchers("/home/**").authenticated()
                 .antMatchers("/", "/oauth/**").permitAll()
-                .antMatchers("/api/v1/**", "/api/v2/**")
+                .antMatchers("/api")
                 .hasRole(Role.USER.name())
                 .anyRequest().authenticated()
                 .and()
