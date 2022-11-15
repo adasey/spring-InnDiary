@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Slf4j
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
@@ -44,11 +44,15 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     }
 
     protected String determineTargetUrl(final Authentication authentication) {
-        log.info("login check to be success");
         Map<String, String> roleTargetUrlMap = new HashMap<>();
-        roleTargetUrlMap.put("ROLE_USER", "/oauth/login/success");
+        roleTargetUrlMap.put("ROLE_USER", "/account/login/success");
 
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        return authoritiesCollectorRoleSearch(authorities, roleTargetUrlMap);
+    }
+
+    private String authoritiesCollectorRoleSearch(final Collection<? extends GrantedAuthority> authorities, Map<String, String> roleTargetUrlMap) {
         for (final GrantedAuthority grantedAuthority : authorities) {
             String authorityName = grantedAuthority.getAuthority();
             if(roleTargetUrlMap.containsKey(authorityName)) {

@@ -1,9 +1,11 @@
 package com.diary.inn.InnDiary.repository.firebase;
 
 import com.diary.inn.InnDiary.domain.login.User;
-import com.diary.inn.InnDiary.utils.DiaryMeta;
+import com.diary.inn.InnDiary.service.firebase.FirebaseDataService;
+import com.diary.inn.InnDiary.utils.firebase.FirebaseFetcher;
+import com.diary.inn.InnDiary.utils.meta.DiaryMeta;
 import com.diary.inn.InnDiary.domain.diary.Slot;
-import com.diary.inn.InnDiary.utils.SlotMeta;
+import com.diary.inn.InnDiary.utils.meta.SlotMeta;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.GenericTypeIndicator;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class DiaryFirebaseJsonRepositoryImpl implements DiaryFirebaseJsonRepository {
-    private final FirebaseJsonRepository firebaseJsonRepository;
+    private final FirebaseFetcher firebaseFetcher;
     private Map<Integer, List<DiaryMeta>> diaryDataAll = new HashMap<>();
 
     @Override
@@ -28,18 +30,18 @@ public class DiaryFirebaseJsonRepositoryImpl implements DiaryFirebaseJsonReposit
         List<Slot> rs = new ArrayList<>();
 
         for (Integer i :isAnySlotHasData()) {
-            SlotMeta s = settingSlotMeta(firebaseJsonRepository.getWhichSlotNumData("diarySlot", "slot" + i), i);
-
-            rs.add(Slot.builder()
-                    .slotNum(i)
-                    .userSeq(u.getId())
-                    .userName(u.getName())
-                    .userEmail(u.getEmail())
-                    .userUid(u.getUid())
-                    .title(s.getTitle())
-                    .which("diary")
-                    .modDate(stringToLocalDate(s.getModDate()))
-                    .build());
+//            SlotMeta s = settingSlotMeta(firebaseDataRepository.getWhichSlotNumData("diarySlot", "slot" + i), i);
+//
+//            rs.add(Slot.builder()
+//                    .slotNum(i)
+//                    .userSeq(u.getId())
+//                    .userName(u.getName())
+//                    .userEmail(u.getEmail())
+//                    .userUid(u.getUid())
+//                    .title(s.getTitle())
+//                    .which("diary")
+//                    .modDate(stringToLocalDate(s.getModDate()))
+//                    .build());
         }
         return rs;
     }
@@ -55,19 +57,6 @@ public class DiaryFirebaseJsonRepositoryImpl implements DiaryFirebaseJsonReposit
         return s;
     }
 
-    private LocalDate stringToLocalDate(String time) {
-        LocalDate ldt = null;
-
-        if (time.length() > 8) {
-            ldt = LocalDate.parse(time, DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
-        }
-        else {
-            ldt = LocalDate.parse(time, DateTimeFormatter.ofPattern("yyyyMMdd"));
-        }
-
-        return ldt;
-    }
-
     @Override
     public Map<Integer, List<DiaryMeta>> getDiaryWithSlot() {
         return this.diaryDataAll;
@@ -78,9 +67,9 @@ public class DiaryFirebaseJsonRepositoryImpl implements DiaryFirebaseJsonReposit
         List<Integer> isSlotExists = new ArrayList<>();
 
         for (int i = 1; i <= 3; i++) {
-            if (firebaseJsonRepository.getWhichData("diarySlot").hasChild("slot" + i)) {
-                isSlotExists.add(i);
-            }
+//            if (firebaseDataRepository.getWhichData("diarySlot").hasChild("slot" + i)) {
+//                isSlotExists.add(i);
+//            }
         }
         return isSlotExists;
     }

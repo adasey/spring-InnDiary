@@ -1,8 +1,9 @@
 package com.diary.inn.InnDiary.repository.diary;
 
+import com.diary.inn.InnDiary.entity.diary.QSlotEntity;
+import com.diary.inn.InnDiary.entity.diary.QTodoEntity;
 import com.diary.inn.InnDiary.entity.diary.SlotEntity;
 import com.diary.inn.InnDiary.entity.diary.TodoEntity;
-import com.diary.inn.InnDiary.work.entity.*;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

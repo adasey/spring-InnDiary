@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService, UserConverterService {
+public class UserServiceImpl implements UserService, UserConversionService {
     private final UserRepository userRepository;
 
     @Override

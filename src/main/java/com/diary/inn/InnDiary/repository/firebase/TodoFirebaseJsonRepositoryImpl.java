@@ -2,8 +2,9 @@ package com.diary.inn.InnDiary.repository.firebase;
 
 import com.diary.inn.InnDiary.domain.login.User;
 import com.diary.inn.InnDiary.domain.diary.Slot;
-import com.diary.inn.InnDiary.utils.SlotMeta;
-import com.diary.inn.InnDiary.utils.TodoMeta;
+import com.diary.inn.InnDiary.utils.firebase.FirebaseFetcher;
+import com.diary.inn.InnDiary.utils.meta.SlotMeta;
+import com.diary.inn.InnDiary.utils.meta.TodoMeta;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.GenericTypeIndicator;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class TodoFirebaseJsonRepositoryImpl implements TodoFirebaseJsonRepository {
-    private final FirebaseJsonRepository firebaseJsonRepository;
+    private final FirebaseFetcher firebaseFetcher;
     private Map<Integer, List<TodoMeta>> todoDataAll = new HashMap<>();
 
     @Override
@@ -31,18 +32,18 @@ public class TodoFirebaseJsonRepositoryImpl implements TodoFirebaseJsonRepositor
         List<Slot> rs = new ArrayList<>();
 
         for (Integer i :isAnySlotHasData()) {
-            SlotMeta s = settingSlotMeta(firebaseJsonRepository.getWhichSlotNumData("todoSlot", "slot" + i), i);
-
-            rs.add(Slot.builder()
-                    .slotNum(i)
-                    .userSeq(u.getId())
-                    .userEmail(u.getEmail())
-                    .userName(u.getName())
-                    .userUid(u.getUid())
-                    .title(s.getTitle())
-                    .which("todo")
-                    .modDate(stringToLocalDate(s.getModDate()))
-                    .build());
+//            SlotMeta s = settingSlotMeta(firebaseDataRepository.getWhichSlotNumData("todoSlot", "slot" + i), i);
+//
+//            rs.add(Slot.builder()
+//                    .slotNum(i)
+//                    .userSeq(u.getId())
+//                    .userEmail(u.getEmail())
+//                    .userName(u.getName())
+//                    .userUid(u.getUid())
+//                    .title(s.getTitle())
+//                    .which("todo")
+//                    .modDate(stringToLocalDate(s.getModDate()))
+//                    .build());
         }
         return rs;
     }
@@ -81,9 +82,9 @@ public class TodoFirebaseJsonRepositoryImpl implements TodoFirebaseJsonRepositor
         List<Integer> isSlotExists = new ArrayList<>();
 
         for (int i = 1; i <= 3; i++) {
-            if (firebaseJsonRepository.getWhichData("todoSlot").hasChild("slot" + i)) {
-                isSlotExists.add(i);
-            }
+//            if (firebaseDataRepository.getWhichData("todoSlot").hasChild("slot" + i)) {
+//                isSlotExists.add(i);
+//            }
         }
         return isSlotExists;
     }
