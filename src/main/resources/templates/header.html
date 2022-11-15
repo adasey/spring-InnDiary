@@ -5,11 +5,16 @@
 <nav class="navbar navbar-expand-lg fixed-top nav-down navbar-transparent" color-on-scroll="500">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" href="https://localhost:8080/home" th:href="@{/home}" title="Inn Diary" data-placement="bottom" target="_self">
+            <a class="navbar-brand" href="https://localhost:8080/home" th:href="@{/}" title="Inn Diary" data-placement="bottom" target="_self">
                 Inn
             </a>
-            <h5 class="navbar-brand"> [[${sUser.name}]] 님 </h5>
-            <a class="navbar-brand" href="index.html" th:href="@{/logout}">로그아웃</a>
+            <th:block th:if="${sessionUser != null}">
+                <h5 class="navbar-brand"> [[${sessionUser.name}]] 님 </h5>
+                <a class="navbar-brand" href="index.html" th:href="@{/logout}">로그아웃</a>
+            </th:block>
+            <th:block th:unless="${sessionUser != null}">
+                <a class="navbar-brand" href="index.html" th:href="@{/account}">로그인</a>
+            </th:block>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-bar bar1"></span>
                 <span class="navbar-toggler-bar bar2"></span>
