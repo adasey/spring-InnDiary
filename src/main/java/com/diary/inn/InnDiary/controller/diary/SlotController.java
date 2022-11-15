@@ -8,7 +8,7 @@ import com.diary.inn.InnDiary.utils.login.session.LoginSession;
 import com.diary.inn.InnDiary.service.diary.DiaryService;
 import com.diary.inn.InnDiary.service.diary.SlotService;
 import com.diary.inn.InnDiary.service.diary.TodoService;
-import com.diary.inn.InnDiary.service.firebase.FirebaseService;
+import com.diary.inn.InnDiary.service.firebase.FirebaseDataService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -26,7 +26,7 @@ import java.util.List;
 public class SlotController {
     private final SlotService slotService;
 
-    private final FirebaseService firebaseService;
+    private final FirebaseDataService firebaseDataService;
     private final UserService userService;
     private final DiaryService diaryService;
     private final TodoService todoService;
@@ -53,9 +53,9 @@ public class SlotController {
     @GetMapping("/diaries/call")
     private String callDiarySlot(@LoginSession SessionUser sUser, @RequestParam Integer slotNum, HttpSession session) {
         User user = userService.findUserByEmail(sUser.getEmail());
-        firebaseService.processDiary(user);
+        firebaseDataService.processDiary(user);
 
-        firebaseService.createDiaryData(user, slotNum);
+        firebaseDataService.createDiaryData(user, slotNum);
 
         Slot dSlot = slotService.findWhichSlotByNum(user, "diary", slotNum);
         session.setAttribute("diarySlot", slotNum);
@@ -67,9 +67,9 @@ public class SlotController {
     @GetMapping("/todos/call")
     private String callTodoSlot(@LoginSession SessionUser sUser, @RequestParam Integer slotNum, HttpSession session) {
         User user = userService.findUserByEmail(sUser.getEmail());
-        firebaseService.processTodo(user);
+        firebaseDataService.processTodo(user);
 
-        firebaseService.createTodoData(user, slotNum);
+        firebaseDataService.createTodoData(user, slotNum);
 
         Slot tSlot = slotService.findWhichSlotByNum(user, "todo", slotNum);
         todoService.setWantSlot(tSlot);
@@ -98,14 +98,13 @@ public class SlotController {
     private void updateAllSlots(SessionUser sUser) {
         User user = userService.findUserByEmail(sUser.getEmail());
 
-        firebaseService.setDataSnapByUid(sUser.getUid());
         List<Slot> allSlotByUser = slotService.findAllSlotByUser(user);
 
         if (isUserHasSlot(allSlotByUser)) {
             deleteSlotIfExist(allSlotByUser);
         }
 
-        firebaseService.insertAllSlots(user);
+        firebaseDataService.insertAllSlots(user);
     }
 
     private boolean isUserHasSlot(List<Slot> slots) {
