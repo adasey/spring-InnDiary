@@ -22,14 +22,16 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/oauth").setViewName("oauth");
+        String ACCOUNT = "account";
+        registry.addViewController("/" + ACCOUNT).setViewName(ACCOUNT);
         WebMvcConfigurer.super.addViewControllers(registry);
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        String STATIC = "/static/";
         registry
-                .addResourceHandler("/static/**")
-                .addResourceLocations("classpath:/static/assets");
+                .addResourceHandler(STATIC + "**")
+                .addResourceLocations("classpath:" + STATIC + "assets");
     }
 }
