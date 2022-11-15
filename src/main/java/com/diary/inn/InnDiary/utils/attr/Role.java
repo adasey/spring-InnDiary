@@ -1,4 +1,4 @@
-package com.diary.inn.InnDiary.utils.attri;
+package com.diary.inn.InnDiary.utils.attr;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

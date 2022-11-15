@@ -1,6 +1,6 @@
 package com.diary.inn.InnDiary.entity;
 
-import com.diary.inn.InnDiary.utils.attri.Role;
+import com.diary.inn.InnDiary.utils.attr.Role;
 import lombok.*;
 
 import javax.persistence.*;

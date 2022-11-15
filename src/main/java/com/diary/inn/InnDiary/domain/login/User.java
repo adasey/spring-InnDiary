@@ -1,6 +1,6 @@
 package com.diary.inn.InnDiary.domain.login;
 
-import com.diary.inn.InnDiary.utils.attri.Role;
+import com.diary.inn.InnDiary.utils.attr.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

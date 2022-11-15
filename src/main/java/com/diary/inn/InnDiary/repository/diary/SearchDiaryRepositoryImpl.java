@@ -1,8 +1,8 @@
 package com.diary.inn.InnDiary.repository.diary;
 
 import com.diary.inn.InnDiary.entity.diary.DiaryEntity;
-import com.diary.inn.InnDiary.work.entity.QDiaryEntity;
-import com.diary.inn.InnDiary.work.entity.QSlotEntity;
+import com.diary.inn.InnDiary.entity.diary.QDiaryEntity;
+import com.diary.inn.InnDiary.entity.diary.QSlotEntity;
 import com.diary.inn.InnDiary.entity.diary.SlotEntity;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;

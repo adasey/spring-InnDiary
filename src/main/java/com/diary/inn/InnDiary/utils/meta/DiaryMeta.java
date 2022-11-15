@@ -1,4 +1,4 @@
-package com.diary.inn.InnDiary.utils;
+package com.diary.inn.InnDiary.utils.meta;
 
 import lombok.*;
 

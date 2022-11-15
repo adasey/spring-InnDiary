@@ -1,6 +1,6 @@
 package com.diary.inn.InnDiary.service.login;
 
-import com.diary.inn.InnDiary.utils.attri.Role;
+import com.diary.inn.InnDiary.utils.attr.Role;
 import com.diary.inn.InnDiary.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;

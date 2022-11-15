@@ -1,7 +1,7 @@
 package com.diary.inn.InnDiary.repository.firebase;
 
 import com.diary.inn.InnDiary.domain.login.User;
-import com.diary.inn.InnDiary.utils.DiaryMeta;
+import com.diary.inn.InnDiary.utils.meta.DiaryMeta;
 import com.diary.inn.InnDiary.domain.diary.Slot;
 
 import java.util.List;
