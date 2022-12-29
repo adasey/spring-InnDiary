@@ -1,6 +1,6 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.0'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'org.springframework.boot' version '2.7.4'
+	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
 	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 	id 'java'
 }
@@ -31,6 +31,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-configuration-processor'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	implementation 'org.projectlombok:lombok:1.18.20'
+//
+//	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
 	implementation group: 'com.google.firebase', name: 'firebase-admin', version: '8.1.0'
 

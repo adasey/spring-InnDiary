@@ -1,7 +1,7 @@
 package com.diary.inn.InnDiary.config;
 
-import com.diary.inn.InnDiary.work.repository.firebase.FirebaseJsonRepository;
-import com.diary.inn.InnDiary.work.service.firebase.FirebaseService;
+import com.diary.inn.InnDiary.service.firebase.FirebaseDataService;
+import com.diary.inn.InnDiary.utils.firebase.FirebaseFetcher;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -18,7 +18,7 @@ import java.io.FileNotFoundException;
 @RequiredArgsConstructor
 @Slf4j
 public class FirebaseConfig {
-    private final FirebaseService firebaseService;
+    private final FirebaseFetcher firebaseFetcher;
 
     @PostConstruct
     public void init() {
@@ -46,18 +46,17 @@ public class FirebaseConfig {
 
     private void fetchValueFromFirebase() {
         FirebaseDatabase fd = FirebaseDatabase.getInstance();
-        DatabaseReference ref = fd.getReference();
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                DataSnapshot document = dataSnapshot.child("users").child("uid");
-                firebaseService.setDataSnap(document);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                System.out.println("went wrong : " + error.getCode());
-            }
-        });
+        DatabaseReference ref = fd.getReference("users/uid");
+//        ref.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                firebaseFetcher.fetchFirebaseDataSnapshot(dataSnapshot);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                System.out.println("went wrong : " + error.getCode());
+//            }
+//        });
     }
 }

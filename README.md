@@ -1,16 +1,24 @@
 # spring-InnDiary
+#
+## Inn Diary 사이트
 
-제목 : Inn Diary 웹 프로젝트
+- 제목 : Inn Diary 웹 프로젝트
 
-개발 언어 : Java
+- 프로젝트 : 개인 프로젝트 
 
-프레임워크 : Spring, Spring Boot
+- 개발 언어 : Java
 
-개발 의존 : Spring Security, Spring MVC, Thymeleaf, JPA, QueryDSL, OAuth2.0
+- 프레임워크 : Spring, Spring Boot
 
-개발 환경 : intellij IDEA, HeidiSQL, Firebase, WSL, GCP(Google Cloud Platform)
+- 개발 의존 : Spring Security, Spring MVC, Thymeleaf, JPA, QueryDSL, OAuth2.0
 
-배포 환경 : AWS EC2
+- 개발 환경 : intellij IDEA, HeidiSQL, Firebase, WSL, GCP(Google Cloud Platform)
+
+- DB : MariaDB
+
+- 기간 : 2022. 07. ~ 09. | 리펙토링 : 2022. 10. ~
+
+- 배포 환경 : AWS EC2
 
 ---
 
@@ -231,7 +239,7 @@ Google Cloud Platform 제공 로그인을 사용하면서 Firebase Authenticatio
 
 슬롯의 최신화 시 아무래도 서버의 DB와 Firebase 클라우드 DB의 사용이 효율적이지 못하다. 이를 앱 사용자와 서버 사용자로 
 두고 앱 사용자의 경우 Firebase 서버의 Realtime DB를 통합 사용할 예정이다. 서버 사용자가 앱과 연동할 경우 서버 사용자의
-데이터를 Firebase로 옮기고 서버 DB에서 전부 지운다. 해당 유저는 계속 Firebase DB로 사용합니다.
+데이터를 Firebase로 옮기고 서버 DB에서 전부 지운다. 해당 유저는 계속 Firebase DB로 사용한다.
 
 ---
 
@@ -251,7 +259,7 @@ Google Cloud Platform 제공 로그인을 사용하면서 Firebase Authenticatio
 테스트 코드 작성과 기존의 500 에러 및 동기화 오류 수정
 
 ### 3. 로직 변경
-서버 DB에서 Firebase DB로 변경에 맞게 수정
+서버 DB에서 Firebase DB로 변경에 맞게 수정, firebase 자체의 권한 수준 변경
 
 ### 4. 새로운 기능 추가
 새롭게 추가할 기능들 추가
